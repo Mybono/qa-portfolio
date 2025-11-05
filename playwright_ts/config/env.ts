@@ -15,8 +15,5 @@ export const env = {
   ERROR_USER: requireEnv('ERROR_USER'),
   VISUAL_USER: requireEnv('VISUAL_USER'),
   PASSWORD: requireEnv('PASSWORD'),
-
-  // Playwright settings
-  HEADLESS: process.env.HEADLESS !== 'false',
-  TIMEOUT: Number(process.env.TIMEOUT) || 30000,
+  TIMEOUT: 10000,
 } as const;
