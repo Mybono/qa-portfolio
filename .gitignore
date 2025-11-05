@@ -1,3 +1,24 @@
+# Node
+node_modules/
+**/node_modules/
+
+# Playwright outputs
+playwright-report/
+**/playwright-report/
+playwright/.cache/
+**/test-results/
+
+# Coverage & dist
+coverage/
+dist/
+
+# Env
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
 ### AL ###
 #Template for AL projects for Dynamics 365 Business Central
 #launch.json folder
