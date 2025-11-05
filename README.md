@@ -1,7 +1,7 @@
 ## QA Portfolio – Running Playwright (TypeScript) Tests
 
 **Requirements:**
-- Docker Desktop installed and running
+- [Docker Desktop](https://docs.docker.com/desktop/) installed and running
 
 ### 1) Recommended: Run via the main Dockerfile
 
@@ -18,8 +18,7 @@ What happens:
 - By default, `npx playwright test` runs inside playwright_ts
 
 ### Project Structure
-- `playwright_ts/` – тесты Playwright TypeScript
-  - `tests/` – файлы тестов (`*.ts`)
-  - `package.json` – скрипты и dev-зависимости тестового проекта
-  - `tsconfig.json` – конфиг TypeScript
-  
+- `playwright_ts/` – Playwright TypeScript tests
+  - `tests/`
+  - `interfaces/`
+  - `constants/`
