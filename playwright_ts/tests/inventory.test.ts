@@ -14,7 +14,7 @@ test.afterAll(async () => {
   await browser.close();
 });
 
-test.describe('Inventory Tests as standard_user', () => {
+test.describe('Inventory Page Tests', () => {
   let context: BrowserContext;
   let page: Page;
 
@@ -55,4 +55,61 @@ test.describe('Inventory Tests as standard_user', () => {
     await page.click(selectors.checkout.backToProductsBtn);
     await page.waitForURL(url.inventory);
   })
+
+  test('should display all main UI elements', async ({ page }) => {
+    await expect(page.locator(selectors.inventory.pageTitle)).toHaveText('Products');
+    await expect(page.locator(selectors.filter.sortDropdown)).toBeVisible();
+    await expect(page.locator(selectors.cart.shoppingCartLink)).toBeVisible();
+    await expect(page.locator(selectors.cart.inventory_item_name)).toHaveCount(6);
+  });
+
+  test('should add one product to cart', async ({ page }) => {
+    await page.click(selectors.inventory.backpack);
+    await expect(page.locator(selectors.inventory.cartBadge)).toHaveText('1');
+    await expect(page.locator(selectors.inventory.backpack)).toBeVisible();
+  });
+
+  test('should remove product from cart', async ({ page }) => {
+    await page.click(selectors.inventory.backpack);
+    await page.click(selectors.removeButtons.backpack);
+    await expect(page.locator(selectors.inventory.cartBadge)).toBeHidden();
+  });
+
+  test('should sort items by price low→high', async ({ page }) => {
+    await page.selectOption(selectors.filter.sortDropdown, selectors.filter.lowToHigh);
+    const prices = await page.$$eval(selectors.inventory.itemPrice, els => els.map(e => parseFloat(e.textContent.replace('$', ''))));
+    expect([...prices].sort((a, b) => a - b)).toEqual(prices);
+  });
+
+  test('should sort items by price low→high', async ({ page }) => {
+    await page.selectOption(selectors.filter.sortDropdown, selectors.filter.lowToHigh);
+    const prices = await page.$$eval(
+      selectors.inventory.itemPrice,
+      els => els.map(e => parseFloat(e.textContent.replace('$', '')))
+    );
+    expect([...prices].sort((a, b) => a - b)).toEqual(prices);
+  });
+
+  test('should sort items by name A→Z', async ({ page }) => {
+    await page.selectOption(selectors.filter.sortDropdown, selectors.filter.nameAZ);
+    const names = await page.$$eval(
+      selectors.inventory.itemName,
+      els => els.map(e => e.textContent.trim().toLowerCase())
+    );
+    expect([...names].sort((a, b) => a.localeCompare(b))).toEqual(names);
+  });
+
+  test('should sort items by name Z→A', async ({ page }) => {
+    await page.selectOption(selectors.filter.sortDropdown, selectors.filter.nameZA);
+    const names = await page.$$eval(
+      selectors.inventory.itemName,
+      els => els.map(e => e.textContent.trim().toLowerCase())
+    );
+    expect([...names].sort((a, b) => b.localeCompare(a))).toEqual(names);
+  });
+
+  test('should navigate to cart', async ({ page }) => {
+    await page.click(selectors.cart.shoppingCartLink);
+    await expect(page).toHaveURL(url.cart);
+  });
 })

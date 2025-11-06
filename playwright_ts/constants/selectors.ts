@@ -15,14 +15,18 @@ export const selectors = {
         shirtRed: '[data-test="add-to-cart-test.allthethings()-t-shirt-(red)"]',
         menuButton: '#react-burger-menu-btn',
         logoutLink: '#logout_sidebar_link',
+        pageTitle: '[data-test="title"]',
+        cartBadge: '[data-test="shopping-cart-badge"]',
+        itemPrice: '[data-test="inventory-item-price"]',
+        burgerMenu: '[data-test="open-menu"]',
+        itemName: '[data-test="inventory-item-name"]'
     },
     cart: {
         shoppingCartLink: '[data-test="shopping-cart-link"]',
         continueShopping: '[data-test="continue-shopping"]',
         checkoutBtn: '[data-test="checkout"]',
         inventoryItemPrice: '[data-test="inventory-item-price"]',
-        inventory_item_name: '.inventory_item_name'
-    },
+        inventory_item_name: '.inventory_item_name'    },
     checkout: {
         continueBtn: '[data-test="continue"]',
         cancelBtn: '[data-test="cancel"]',

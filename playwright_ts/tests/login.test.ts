@@ -63,4 +63,11 @@ test.describe('Login Page', () => {
     await page.goto(url.inventory);
     await expect(page).toHaveURL(url.baseUrl);
   });
+
+  test('should logout successfully', async ({ page }) => {
+    await login(page, UserRole.standard_user);
+    await page.click(selectors.inventory.burgerMenu);
+    await page.click(selectors.inventory.logoutLink);
+    await expect(page).toHaveURL(url.baseUrl);
+  });
 });
