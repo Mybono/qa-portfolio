@@ -14,15 +14,9 @@ test.afterAll(async () => {
   await browser.close();
 });
 
-test.describe('Inventory Page Tests', () => {
-  let context: BrowserContext;
-  let page: Page;
-
-  test.beforeAll(async () => {
-    context = await browser.newContext();
-    page = await context.newPage();
-    await login(page, UserRole.standard_user);
-  });
+test.beforeEach(async ({ page }) => {
+  await login(page, UserRole.standard_user);
+});
 
   test.afterAll(async () => {
     await context.close();
