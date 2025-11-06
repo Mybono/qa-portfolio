@@ -1,8 +1,8 @@
 import { selectors, url } from '../constants';
 import { UserRoleType } from '../interfaces';
 import { Page } from '@playwright/test';
-import { env } from '../config';
 import { logger } from './logger';
+import { env } from '../config';
 
 export async function login(page: Page, userRole: UserRoleType) {
   const creds = {
