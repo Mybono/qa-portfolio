@@ -16,7 +16,7 @@ docker compose up --build -d
 docker compose up
 
 What happens:
-- A Docker image is built based on `mcr.microsoft.com/playwright:v1.48.2-jammy`
+- A Docker image is built based on `mcr.microsoft.com/playwright:v1.56.1-jammy`
 - The `playwright_ts` project is copied into the image and dependencies are installed
 - By default, `npx playwright test` runs inside playwright_ts
 

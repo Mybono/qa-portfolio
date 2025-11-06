@@ -1,8 +1,8 @@
 import { Browser, BrowserContext, Page, test, expect, chromium } from '@playwright/test';
 import { selectors, url, inventorySelectors } from '../constants';
+import { userService } from '../services';
 import { UserRole } from '../interfaces';
 import { login } from '../utils';
-
 let browser: Browser;
 
 test.beforeAll(async () => {
@@ -39,9 +39,10 @@ test.describe('Inventory Tests as standard_user', () => {
 
     //*CheckOutStepOne
     await page.waitForURL(url.checkoutStepOne);
-    await page.fill(selectors.checkout.firstName, 'username');
-    await page.fill(selectors.checkout.lastName, 'password');
-    await page.fill(selectors.checkout.postalCode, '12345');
+    const standardUser = await userService.createUser();
+    await page.fill(selectors.checkout.firstName, standardUser.firstName);
+    await page.fill(selectors.checkout.lastName, standardUser.lastName);
+    await page.fill(selectors.checkout.postalCode, standardUser.postalCode);
     await page.click(selectors.checkout.continueBtn);
 
     //*CheckOutStepTwo

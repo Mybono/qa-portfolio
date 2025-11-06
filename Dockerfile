@@ -1,6 +1,5 @@
 # Official Playwright image (Node, Playwright, browsers preinstalled)
 FROM mcr.microsoft.com/playwright:v1.56.1-jammy
-
 WORKDIR /work
 
 # Install only Playwright TS project dependencies first (better cache)
