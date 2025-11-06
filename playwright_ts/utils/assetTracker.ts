@@ -20,7 +20,7 @@ export const trackCreatedAssets = (params: Record<string, ObjectId>): void => {
     const assetId = params[collectionName];
 
     if (!collectionName || !assetId) {
-        logger.error("[AssetTracker]: Invalid input passed to trackCreatedAssets.");
+        logger.error("[trackCreatedAssets]: Invalid input passed to trackCreatedAssets.");
         return;
     }
 
@@ -29,7 +29,7 @@ export const trackCreatedAssets = (params: Record<string, ObjectId>): void => {
     }
     
     trackedAssets.get(collectionName)!.push(assetId);
-    logger.debug(`[AssetTracker]: Tracked asset in collection '${collectionName}' with ID: ${assetId.toHexString()}`);
+    logger.debug(`[trackCreatedAssets]: Tracked asset in collection '${collectionName}' with ID: ${assetId.toHexString()}`);
 };
 
 /**
@@ -58,11 +58,11 @@ export const deleteTrackedAssets = async (collectionsToCleanup: Record<string, b
             const ids = trackedAssets.get(collectionName);
 
             if (!ids || ids.length === 0) {
-                logger.warn(`[AssetTracker]: No tracked assets found for collection '${collectionName}'. Skipping.`);
+                logger.warn(`[deleteTrackedAssets]: No tracked assets found for collection '${collectionName}'. Skipping.`);
                 continue;
             }
 
-            logger.info(`[AssetTracker]: Preparing to delete ${ids.length} assets from collection '${collectionName}'...`);
+            logger.info(`[deleteTrackedAssets]: Preparing to delete ${ids.length} assets from collection '${collectionName}'`);
 
             try {
                 const collection: Collection = db.collection(collectionName);
@@ -72,11 +72,11 @@ export const deleteTrackedAssets = async (collectionsToCleanup: Record<string, b
                     _id: { $in: ids } 
                 });
 
-                logger.info(`[AssetTracker]: Successfully deleted ${result.deletedCount} out of ${ids.length} assets from collection '${collectionName}'.`);
+                logger.info(`[deleteTrackedAssets]: Successfully deleted ${result.deletedCount} out of ${ids.length} assets from collection '${collectionName}'.`);
 
             } catch (error) {
                 // Log the error but continue cleanup in the following collections for scalability
-                logger.error(`[AssetTracker]: Error deleting assets from collection '${collectionName}': ${error}`);
+                logger.error(`[deleteTrackedAssets]: Error deleting assets from collection '${collectionName}': ${error}`);
             }
 
             // Clear the list of IDs for this collection after the operation is complete
@@ -84,8 +84,8 @@ export const deleteTrackedAssets = async (collectionsToCleanup: Record<string, b
         }
     } catch (dbError) {
         // Critical error: problem with the database connection for cleanup
-        logger.error(`[AssetTracker]: CRITICAL DATABASE CONNECTION ERROR during cleanup: ${dbError}`);
+        logger.error(`[deleteTrackedAssets]: CRITICAL DATABASE CONNECTION ERROR during cleanup: ${dbError}`);
     }
     
-    logger.info("[AssetTracker]: Cleanup finished.");
+    logger.info("[deleteTrackedAssets]: Cleanup finished.");
 };
