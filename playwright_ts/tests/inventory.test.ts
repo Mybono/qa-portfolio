@@ -2,7 +2,7 @@ import { Browser, BrowserContext, Page, test, expect, chromium } from '@playwrig
 import { selectors, url, inventorySelectors } from '../constants';
 import { userService } from '../services';
 import { UserRole } from '../interfaces';
-import { login } from '../utils';
+import { login, trackCreatedAssets, deleteTrackedAssets } from '../utils';
 let browser: Browser;
 
 test.beforeAll(async () => {
@@ -10,6 +10,7 @@ test.beforeAll(async () => {
 });
 
 test.afterAll(async () => {
+  deleteTrackedAssets({ users: true })
   await browser.close();
 });
 
@@ -40,6 +41,7 @@ test.describe('Inventory Tests as standard_user', () => {
     //*CheckOutStepOne
     await page.waitForURL(url.checkoutStepOne);
     const standardUser = await userService.createUser();
+    trackCreatedAssets({ users: standardUser._id })
     await page.fill(selectors.checkout.firstName, standardUser.firstName);
     await page.fill(selectors.checkout.lastName, standardUser.lastName);
     await page.fill(selectors.checkout.postalCode, standardUser.postalCode);

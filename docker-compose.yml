@@ -26,7 +26,7 @@ services:
       dockerfile: ./Dockerfile
     <<: *common-env
     env_file:
-      - ./.env
+      - ./.env\
     command: ["npx", "playwright", "test", "--reporter=list"]
     shm_size: 1gb
 
