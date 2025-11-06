@@ -81,13 +81,13 @@ test.describe('Inventory Page Tests', () => {
     expect([...prices].sort((a, b) => a - b)).toEqual(prices);
   });
 
-  test('should sort items by price low→high', async ({ page }) => {
-    await page.selectOption(selectors.filter.sortDropdown, selectors.filter.lowToHigh);
+  test('should sort items by price high→low', async ({ page }) => {
+    await page.selectOption(selectors.filter.sortDropdown, selectors.filter.highToLow);
     const prices = await page.$$eval(
       selectors.inventory.itemPrice,
       els => els.map(e => parseFloat(e.textContent.replace('$', '')))
     );
-    expect([...prices].sort((a, b) => a - b)).toEqual(prices);
+    expect([...prices].sort((a, b) => b - a)).toEqual(prices);
   });
 
   test('should sort items by name A→Z', async ({ page }) => {
