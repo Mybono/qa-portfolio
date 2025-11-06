@@ -1,7 +1,8 @@
 import { Collection, Db, ObjectId } from 'mongodb';
-import { DbConnection } from '../services';
 import { User, UserRoleType } from '../interfaces';
-import { _, logger } from '../utils'
+import { DbConnection } from '../services';
+import { _, logger } from '../utils';
+
 /**
  * A generic service class responsible for managing CRUD operations 
  * for a specific MongoDB collection, defined at instantiation. 

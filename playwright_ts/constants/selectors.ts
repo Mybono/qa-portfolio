@@ -1,9 +1,10 @@
 export const selectors = {
     login: {
-        usernameInput: '#user-name',
-        passwordInput: '#password',
+        usernameInput: '[data-test="username"]',
+        passwordInput: '[data-test="password"]',
         loginButton: '[data-test="login-button"]',
-        errorMessage: "[data-test='error']",
+        errorMessage: '[data-test="error"]',
+        errorButton: '[data-test="error-button"]'
     },
     inventory: {
         backpack: '[data-test="add-to-cart-sauce-labs-backpack"]',
