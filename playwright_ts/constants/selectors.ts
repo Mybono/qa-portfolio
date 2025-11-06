@@ -14,7 +14,7 @@ export const selectors = {
         labSonesie: '[data-test="add-to-cart-sauce-labs-onesie"]',
         shirtRed: '[data-test="add-to-cart-test.allthethings()-t-shirt-(red)"]',
         menuButton: '#react-burger-menu-btn',
-        logoutLink: '#logout_sidebar_link',
+        logoutLink: '[data-test="logout-sidebar-link"]',
         pageTitle: '[data-test="title"]',
         cartBadge: '[data-test="shopping-cart-badge"]',
         itemPrice: '[data-test="inventory-item-price"]',
@@ -40,10 +40,10 @@ export const selectors = {
     },
     filter: {
         sortDropdown: 'select[data-test="product-sort-container"]',
-        highToLow: 'option[value="hilo"]',
-        lowToHigh: 'option[value="lohi"]',
-        nameAZ: 'option[value="az"]',
-        nameZA: 'option[value="za"]',
+        highToLow: 'hilo',   
+        lowToHigh: 'lohi',    
+        nameAZ: 'az',         
+        nameZA: 'za', 
     },
     removeButtons: {
         backpack: "[data-test='remove-sauce-labs-backpack']",

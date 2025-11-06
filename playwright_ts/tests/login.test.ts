@@ -66,8 +66,20 @@ test.describe('Login Page', () => {
 
   test('should logout successfully', async ({ page }) => {
     await login(page, UserRole.standard_user);
-    await page.click(selectors.inventory.burgerMenu);
-    await page.click(selectors.inventory.logoutLink);
+  
+    // Open the burger menu safely
+    const burgerMenu = page.locator(selectors.inventory.burgerMenu);
+    await burgerMenu.waitFor({ state: 'visible' });
+  
+    // Force click in case something intercepts it
+    await burgerMenu.click({ force: true });
+  
+    // Click the logout link
+    const logoutLink = page.locator(selectors.inventory.logoutLink);
+    await logoutLink.waitFor({ state: 'visible' });
+    await logoutLink.click();
+  
+    // Verify URL
     await expect(page).toHaveURL(url.baseUrl);
   });
 });

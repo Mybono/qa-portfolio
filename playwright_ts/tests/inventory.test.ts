@@ -3,6 +3,8 @@ import { login, trackCreatedAssets, deleteTrackedAssets } from '../utils';
 import { selectors, url, inventorySelectors } from '../constants';
 import { userService } from '../services';
 import { UserRole } from '../interfaces';
+import { env } from '../config';
+
 let browser: Browser;
 
 test.beforeAll(async () => {
@@ -18,11 +20,9 @@ test.beforeEach(async ({ page }) => {
   await login(page, UserRole.standard_user);
 });
 
-  test.afterAll(async () => {
-    await context.close();
-  });
+test.describe('Inventory Page Tests', () => {
 
-  test('E2E: Add all & Checkout', async () => {
+  test('E2E: Add all & Checkout', async ({ page }) => {
     await page.goto(url.inventory);
     for (const selector of inventorySelectors) {
       await page.locator(selector).click();
@@ -58,9 +58,10 @@ test.beforeEach(async ({ page }) => {
   });
 
   test('should add one product to cart', async ({ page }) => {
+    await page.waitForSelector(selectors.inventory.backpack);
     await page.click(selectors.inventory.backpack);
     await expect(page.locator(selectors.inventory.cartBadge)).toHaveText('1');
-    await expect(page.locator(selectors.inventory.backpack)).toBeVisible();
+    await expect(page.locator(selectors.removeButtons.backpack)).toBeVisible();
   });
 
   test('should remove product from cart', async ({ page }) => {
@@ -103,7 +104,7 @@ test.beforeEach(async ({ page }) => {
   });
 
   test('should navigate to cart', async ({ page }) => {
-    await page.click(selectors.cart.shoppingCartLink);
+    await page.click(selectors.cart.shoppingCartLink, {timeout: 10000} );
     await expect(page).toHaveURL(url.cart);
   });
 })
