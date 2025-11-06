@@ -1,0 +1,34 @@
+version: '3.9'
+
+x-common-env: &common-env
+  environment:
+    MONGO_CONNECTION_STRING: mongodb://mongo:27017/qa_portfolio
+  depends_on:
+    - mongo
+
+services:
+  # 🧩 MongoDB
+  mongo:
+    image: mongo:7
+    container_name: qa-portfolio-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo:/docker-entrypoint-initdb.d
+    environment:
+      MONGO_INITDB_DATABASE: qa_portfolio
+
+  # 🧪 Playwright Tests
+  playwright:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    <<: *common-env
+    env_file:
+      - ./.env
+    command: ["npx", "playwright", "test", "--reporter=list"]
+    shm_size: 1gb
+
+volumes:
+  mongo_data:

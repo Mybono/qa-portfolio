@@ -15,5 +15,6 @@ export const env = {
   ERROR_USER: requireEnv('ERROR_USER'),
   VISUAL_USER: requireEnv('VISUAL_USER'),
   PASSWORD: requireEnv('PASSWORD'),
+  MONGO_CONNECTION_STRING: requireEnv('MONGO_CONNECTION_STRING'),
   TIMEOUT: 10000,
 } as const;

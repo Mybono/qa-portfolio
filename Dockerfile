@@ -5,8 +5,9 @@ WORKDIR /work
 
 # Install only Playwright TS project dependencies first (better cache)
 COPY playwright_ts/package*.json ./playwright_ts/
+COPY playwright_ts/package-lock.json ./playwright_ts/
 WORKDIR /work/playwright_ts
-RUN npm ci || npm install
+RUN npm install
 
 # Copy tests and configs
 WORKDIR /work

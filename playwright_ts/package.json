@@ -3,9 +3,12 @@
   "private": true,
   "version": "1.0.0",
   "type": "commonjs",
+  "dependencies": {
+    "mongodb": "6.8.0"
+  },
   "devDependencies": {
-    "@playwright/test": "^1.48.2",
-    "@types/node": "^22.8.6",
-    "typescript": "^5.6.3"
+    "@playwright/test": "1.48.2",
+    "@types/node": "22.8.6",
+    "typescript": "5.6.3"
   }
 }
