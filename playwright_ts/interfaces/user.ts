@@ -23,3 +23,4 @@ export interface User {
   isDeleted: boolean,
   isVisible: boolean
 }
+
