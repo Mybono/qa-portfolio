@@ -27,7 +27,7 @@ services:
     <<: *common-env
     env_file:
       - ./.env\
-    command: ["npx", "playwright", "test", "--reporter=list"]
+    command: ["npx", "playwright", "test", "--reporter=html"]
     shm_size: 1gb
 
 volumes:
