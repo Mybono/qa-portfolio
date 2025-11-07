@@ -6,7 +6,15 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "types": ["@playwright/test", "node"],
+    "paths": {
+      "sdk/*": [
+        "../sdk/*"
+      ]
+    },
+    "types": [
+      "@playwright/test",
+      "node"
+    ],
     "strict": true,
     "skipLibCheck": true,
     "noEmit": true
@@ -14,7 +22,7 @@
   "include": [
     "tests/**/*.ts",
     "config/**/*.ts",
-    "constants/**/*.ts"
-, "interfaces/collections.ts"  ]
+    "constants/**/*.ts",
+    "interfaces/collections.ts"
+  ]
 }
-

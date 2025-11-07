@@ -7,7 +7,6 @@ function requireEnv(name: string): string {
 }
 
 export const env = {
-  // User credentials
   STANDART_USER: requireEnv('STANDART_USER'),
   LOCKED_OUT_USER: requireEnv('LOCKED_OUT_USER'),
   PROBLEM_USER: requireEnv('PROBLEM_USER'),

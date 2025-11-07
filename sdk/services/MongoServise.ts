@@ -1,7 +1,7 @@
 import { Collection, ObjectId, Filter, UpdateFilter, WithId, OptionalUnlessRequiredId } from 'mongodb';
 
 export class MongoService<T extends { _id?: ObjectId }> {
-    constructor(private readonly collection: Collection<T>) {}
+    constructor(private readonly collection: Collection<T>) { }
 
     async findOne(query: Partial<T>): Promise<WithId<T> | null> {
         return this.collection.findOne(query as Filter<T>);
@@ -15,7 +15,7 @@ export class MongoService<T extends { _id?: ObjectId }> {
     async updateOne(id: ObjectId, update: Partial<T>): Promise<WithId<T> | null> {
         const result = await this.collection.findOneAndUpdate(
             { _id: id } as Filter<T>,
-            { $set: update } as UpdateFilter<T>,
+            { $set: update } as unknown as UpdateFilter<T>,
             { returnDocument: 'after' }
         );
         return (result as unknown as { value: WithId<T> | null }).value ?? null;

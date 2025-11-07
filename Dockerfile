@@ -1,34 +1,20 @@
-# # Official Playwright image (Node, Playwright, browsers preinstalled)
-# FROM mcr.microsoft.com/playwright:v1.56.1-jammy
-# WORKDIR /work
+FROM mcr.microsoft.com/playwright:v1.48.2-jammy
+WORKDIR /work
 
-# # Install only Playwright TS project dependencies first (better cache)
-# COPY playwright_ts/package*.json ./playwright_ts/
-# COPY playwright_ts/package-lock.json ./playwright_ts/
-# WORKDIR /work/playwright_ts
-# RUN npm install
-
-# # Copy tests and configs
-# WORKDIR /work
-# COPY playwright_ts ./playwright_ts
-# COPY .env ./playwright_ts/.env   
-
-# # Default command: run Playwright tests from playwright_ts
-# WORKDIR /work/playwright_ts
-# CMD ["npx", "playwright", "test"]
-# Official Playwright image (Node, Playwright, browsers preinstalled)
-FROM mcr.microsoft.com/playwright:v1.56.1-jammy
-WORKDIR /work/playwright_ts
-
-# Копируем только package.json и package-lock.json для кэширования зависимостей
-COPY playwright_ts/package*.json ./
-
-# Устанавливаем зависимости
+# === Install and Build SDK Project (where MongoDB types are needed) ===
+WORKDIR /work/sdk
+COPY sdk/package.json ./
 RUN npm install
+RUN npm install @types/mongodb typescript --save-dev
+COPY sdk/ .
+RUN npm run build
 
-# Копируем весь проект
-COPY playwright_ts ./
+# === Install Playwright Dependencies ===
+WORKDIR /work/playwright_ts
+COPY playwright_ts/package*.json ./
+RUN npm install
+COPY playwright_ts/ .
 COPY .env ./.env
 
-# Default command: запуск тестов
+# Default command: run tests
 CMD ["npx", "playwright", "test"]

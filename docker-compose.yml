@@ -2,15 +2,15 @@ version: '3.9'
 
 x-common-env: &common-env
   environment:
-    MONGO_CONNECTION_STRING: mongodb://mongo:27017/qa_portfolio
+    MONGO_URL: mongodb://mongo:27017/qa_portfolio
   depends_on:
     - mongo
 
 services:
-  # 🧩 MongoDB
+  # 🧩 MongoDB 
   mongo:
     image: mongo:7
-    container_name: qa-portfolio-mongo
+    container_name: mongo
     ports:
       - "27017:27017"
     volumes:
@@ -19,16 +19,31 @@ services:
     environment:
       MONGO_INITDB_DATABASE: qa_portfolio
 
-  # 🧪 Playwright Tests
-  playwright:
+  # 🧪 Playwright Tests (TypeScript)
+  playwright_ts:
     build:
       context: .
       dockerfile: ./Dockerfile
     <<: *common-env
     env_file:
-      - ./.env\
-    command: ["npx", "playwright", "test", "--reporter=html"]
+      - ./.env
+    command: ["sleep", "infinity"]
     shm_size: 1gb
+    container_name: playwright_ts
+    volumes:
+      - ./playwright_ts:/work/playwright_ts
+
+  # 🐍 Playwright Tests (Python)
+  playwright_py:
+    build:
+      context: ./playwright_py 
+      dockerfile: ./Dockerfile
+    <<: *common-env
+    command: ["sleep", "infinity"]
+    shm_size: 1gb
+    container_name: playwright_py
+    volumes:
+      - ./playwright_py:/work/playwright_py
 
 volumes:
   mongo_data:

@@ -1,8 +1,7 @@
-// services/init.ts
-import { DbConnection } from '../services';
-import { logger } from '../utils';
+import { DbConnection, UserService } from 'sdk/services';
+import { logger, AssetsTracker } from 'sdk/utils';
+import { env } from '../config';
 import { Db } from 'mongodb';
-import { UserService } from '../services/UserService';
 
 type ServiceConstructor<T> = new (db: Db) => T;
 
@@ -13,10 +12,10 @@ declare global {
 
 const dbInit = async (): Promise<Db> => {
     if (!globalThis._db) {
-        globalThis._db = await DbConnection.getInstance().openConnection();
+        globalThis._db = await DbConnection.getInstance().openConnection(env.MONGO_CONNECTION_STRING);
         logger.info('[ServicesInit] DB connection established');
     }
-    return globalThis._db;
+    return globalThis._db!;
 };
 
 const createLazyService = <T extends object>(ServiceClass: ServiceConstructor<T>): T =>
@@ -37,3 +36,4 @@ const createLazyService = <T extends object>(ServiceClass: ServiceConstructor<T>
     });
 
 export const userService = createLazyService(UserService);
+export const assetsTracker = createLazyService(AssetsTracker);

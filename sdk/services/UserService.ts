@@ -16,7 +16,6 @@ export class UserService {
         this.mongoService = new MongoService<User>(collection);
     }
 
-
     public async createUser(userData?: Omit<User, '_id'>, userRole?: UserRoleType): Promise<User> {
         try {
             const doc = userData || _.getRandomUser(userRole || 'standard_user');

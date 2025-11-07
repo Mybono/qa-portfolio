@@ -1,6 +1,5 @@
 import { MongoClient, Db } from "mongodb";
 import { logger } from "../utils";
-import { env } from "../config";
 
 /**
  * Singleton class to manage the single connection instance to MongoDB.
@@ -28,12 +27,12 @@ export class DbConnection {
      * If a connection is already open, it returns the existing Db object.
      * @returns A promise that resolves to the MongoDB Db object.
      */
-    public async openConnection(): Promise<Db> {
+    public async openConnection(MONGO_CONNECTION_STRING: string): Promise<Db> {
         if (this.isConnected && this.db) {
             return this.db;
         }
 
-        this.client = new MongoClient(env.MONGO_CONNECTION_STRING);
+        this.client = new MongoClient(MONGO_CONNECTION_STRING);
         await this.client.connect();
 
         this.db = this.client.db(); 

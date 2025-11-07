@@ -11,8 +11,7 @@ class Logger {
     debug: 3,
   };
 
-  private currentLevel: LogLevel =
-    (process.env.LOG_LEVEL as LogLevel) || "info";
+  private currentLevel: LogLevel = "info";
 
   private getTimestamp(): string {
     return new Date().toISOString();

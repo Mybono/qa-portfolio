@@ -1,29 +1,45 @@
-## QA Portfolio – Running Playwright (TypeScript) Tests
+# QA Portfolio – Automated Testing Platform 🚀
 
-**Requirements:**
-- [Docker Desktop](https://docs.docker.com/desktop/) installed and running
+This repository presents a unified automated testing platform. We use **Docker Compose** to fully isolate the testing environments, ensuring stable and reproducible test runs for various components (E2E, API, and Integration).
 
-### 1) Recommended: Run via the main Dockerfile
+## Requirements
+
+* **[Docker Desktop](https://docs.docker.com/desktop/)** installed and running.
+* The **`docker compose`** command is available (standard in modern Docker Desktop installations).
+
+---
+
+## 🏗️ Core Architecture (Docker Compose)
+
+The project uses `docker compose` to orchestrate several key services:
+
+
+| Service Name | Technology | Role |
+| :--- | :--- | :--- |
+| **`mongo`** | MongoDB | Isolated database for storing and managing test data. |
+| **`playwright_ts`** | Playwright / **TypeScript** | Environment for running **End-to-End tests** using Node.js. |
+| **`playwright_py`** | Playwright / **Python** | Environment for running **End-to-End tests** using Pytest. |
+
+---
+
+## 🏃 Running the Tests
+
+The recommended method is using **Docker Compose**, which handles the build process, networking, and execution of all test suites.
+
+### 1. Setup and Initialization (Build and Run)
+
+Build all project images (TypeScript and Python) and run the necessary services (Mongo, Test Runners) in detached mode (`-d`). This command also handles the MongoDB initialization.
 
 From the root of the repository (`qa-portfolio`):
 
+
+### Starting the Project
+☕ **Grab a coffee!** Building and setting up the containers might take a few minutes.
+
 ```powershell
-docker run --rm -v "${PWD}/playwright_ts:/app" mcr.microsoft.com/playwright:v1.56.1-jammy sh -c "cd /app && npm install"
-docker build -t qa-portfolio .
-docker run --rm --shm-size=1g --env-file .env qa-portfolio
-```
-docker compose run --rm playwright sh
 docker compose up --build -d
-docker compose up
-docker compose run --rm playwright npm run format
+```
 
-What happens:
-- A Docker image is built based on `mcr.microsoft.com/playwright:v1.56.1-jammy`
-- The `playwright_ts` project is copied into the image and dependencies are installed
-- By default, `npx playwright test` runs inside playwright_ts
-
-### Project Structure
-- `playwright_ts/` – Playwright TypeScript tests
-  - `tests/`
-  - `interfaces/`
-  - `constants/`
+```powershell
+docker compose exec -w /work/playwright_ts playwright_ts npx playwright test
+```

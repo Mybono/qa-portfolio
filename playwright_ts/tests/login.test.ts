@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { selectors, url } from '../constants';
-import { UserRole } from '../interfaces';
+import { selectors, url } from 'sdk/constants';
+import { UserRole } from 'sdk/interfaces';
 import { login } from '../utils/login';
 import { env } from '../config/env';
 

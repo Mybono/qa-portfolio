@@ -1,8 +1,8 @@
 import { Browser, test, expect, chromium } from '@playwright/test';
-import { login, trackCreatedAssets, deleteTrackedAssets } from '../utils';
-import { selectors, url, inventorySelectors } from '../constants';
-import { userService } from '../services';
-import { UserRole } from '../interfaces';
+import { selectors, url, inventorySelectors } from 'sdk/constants';
+import { login } from '../utils';
+import { userService, assetsTracker } from '../services';
+import { UserRole } from 'sdk/interfaces';
 let browser: Browser;
 
 test.beforeAll(async () => {
@@ -10,7 +10,7 @@ test.beforeAll(async () => {
 });
 
 test.afterAll(async () => {
-  deleteTrackedAssets({ users: true })
+  assetsTracker.cleanup({ users: true })
   await browser.close();
 });
 
@@ -33,7 +33,7 @@ test.describe('Inventory Page Tests', () => {
     //*CheckOutStepOne
     await page.waitForURL(url.checkoutStepOne);
     const standardUser = await userService.createUser();
-    trackCreatedAssets({ users: standardUser._id });
+    assetsTracker.track({ users: standardUser._id });
     await page.fill(selectors.checkout.firstName, standardUser.firstName);
     await page.fill(selectors.checkout.lastName, standardUser.lastName);
     await page.fill(selectors.checkout.postalCode, standardUser.postalCode);
