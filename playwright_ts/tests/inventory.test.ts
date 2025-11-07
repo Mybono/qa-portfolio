@@ -1,10 +1,8 @@
-import { Browser, BrowserContext, Page, test, expect, chromium } from '@playwright/test';
+import { Browser, test, expect, chromium } from '@playwright/test';
 import { login, trackCreatedAssets, deleteTrackedAssets } from '../utils';
 import { selectors, url, inventorySelectors } from '../constants';
 import { userService } from '../services';
 import { UserRole } from '../interfaces';
-import { env } from '../config';
-
 let browser: Browser;
 
 test.beforeAll(async () => {

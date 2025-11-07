@@ -15,6 +15,6 @@
     "tests/**/*.ts",
     "config/**/*.ts",
     "constants/**/*.ts"
-  ]
+, "interfaces/collections.ts"  ]
 }
 

@@ -15,6 +15,7 @@ docker run --rm --shm-size=1g --env-file .env qa-portfolio
 docker compose run --rm playwright sh
 docker compose up --build -d
 docker compose up
+docker compose run --rm playwright npm run format
 
 What happens:
 - A Docker image is built based on `mcr.microsoft.com/playwright:v1.56.1-jammy`

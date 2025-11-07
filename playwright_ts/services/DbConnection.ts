@@ -13,11 +13,6 @@ export class DbConnection {
     private isConnected = false;
 
     /**
-     * Private constructor to prevent direct instantiation.
-     */
-    private constructor() {}
-
-    /**
      * Gets the single instance of DbConnection.
      * @returns The singleton instance of DbConnection.
      */
