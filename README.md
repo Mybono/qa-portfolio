@@ -12,6 +12,7 @@ docker run --rm -v "${PWD}/playwright_ts:/app" mcr.microsoft.com/playwright:v1.5
 docker build -t qa-portfolio .
 docker run --rm --shm-size=1g --env-file .env qa-portfolio
 ```
+docker compose run --rm playwright sh
 docker compose up --build -d
 docker compose up
 
