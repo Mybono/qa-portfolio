@@ -1,12 +1,15 @@
 import { test, expect } from '@playwright/test';
 import { selectors, url } from 'sdk/constants';
 import { UserRole } from 'sdk/interfaces';
-import { login } from '../utils/login';
+import { LoginPage } from '../pages';
 import { env } from '../config/env';
 
 test.describe('Login Page', () => {
+  let loginPage: LoginPage;
+
   test.beforeEach(async ({ page }) => {
-    await page.goto(url.baseUrl);
+    loginPage = new LoginPage(page);
+    await loginPage.navigateToLogin();
   });
 
   test('renders username, password fields and login button', async ({ page }) => {
@@ -16,47 +19,47 @@ test.describe('Login Page', () => {
   });
 
   test('logs in successfully with valid credentials', async ({ page }) => {
-    await login(page, UserRole.standard_user);
+    await loginPage.loginAs(UserRole.standard_user);
     await expect(page).toHaveURL(url.inventory);
   });
 
-  test('shows error when username is invalid', async ({ page }) => {
-    await page.fill(selectors.login.usernameInput, 'wrong_user');
-    await page.fill(selectors.login.passwordInput, env.PASSWORD);
-    await page.click((selectors.login.loginButton));
-    await expect(page.locator(selectors.login.errorMessage)).toContainText('Username and password do not match');
+  test('shows error when username is invalid', async () => {
+    await loginPage.login('wrong_user', env.PASSWORD);
+    const error = await loginPage.getErrorMessage();
+    expect(error).toContain('Username and password do not match');
   });
 
-  test('shows error when password is invalid', async ({ page }) => {
-    await page.fill(selectors.login.usernameInput, env.STANDART_USER);
-    await page.fill(selectors.login.passwordInput, 'wrong_pass');
-    await page.click((selectors.login.loginButton));
-    await expect(page.locator(selectors.login.errorMessage)).toContainText('Username and password do not match');
+  test('shows error when password is invalid', async () => {
+    await loginPage.login(env.STANDART_USER, 'wrong_pass');
+    const error = await loginPage.getErrorMessage();
+    expect(error).toContain('Username and password do not match');
   });
 
-  test('shows error when username is missing', async ({ page }) => {
-    await page.fill(selectors.login.passwordInput, env.PASSWORD);
-    await page.click((selectors.login.loginButton));
-    await expect(page.locator(selectors.login.errorMessage)).toContainText('Username is required');
+  test('shows error when username is missing', async () => {
+    await loginPage.passwordInput.fill(env.PASSWORD);
+    await loginPage.loginButton.click();
+    const error = await loginPage.getErrorMessage();
+    expect(error).toContain('Username is required');
   });
 
-  test('shows error when password is missing', async ({ page }) => {
-    await page.fill(selectors.login.usernameInput, env.STANDART_USER);
-    await page.click((selectors.login.loginButton));
-    await expect(page.locator(selectors.login.errorMessage)).toContainText('Password is required');
+  test('shows error when password is missing', async () => {
+    await loginPage.usernameInput.fill(env.STANDART_USER);
+    await loginPage.loginButton.click();
+    const error = await loginPage.getErrorMessage();
+    expect(error).toContain('Password is required');
   });
 
-  test('shows error when both fields are empty', async ({ page }) => {
-    await page.click((selectors.login.loginButton));
-    await expect(page.locator(selectors.login.errorMessage)).toContainText('Username is required');
+  test('shows error when both fields are empty', async () => {
+    await loginPage.loginButton.click();
+    const error = await loginPage.getErrorMessage();
+    expect(error).toContain('Username is required');
   });
 
-  test('should clear error after closing it', async ({ page }) => {
-    await page.click((selectors.login.loginButton));
-    const error = page.locator(selectors.login.errorMessage);
-    await expect(error).toBeVisible();
-    await page.click(selectors.login.errorButton);
-    await expect(error).toBeHidden();
+  test('should clear error after closing it', async () => {
+    await loginPage.loginButton.click();
+    await expect(loginPage.errorMessageContainer).toBeVisible();
+    await loginPage.errorButton.click(); 
+    await expect(loginPage.errorMessageContainer).toBeHidden();
   });
 
   test('prevents access to inventory without login', async ({ page }) => {
@@ -64,22 +67,9 @@ test.describe('Login Page', () => {
     await expect(page).toHaveURL(url.baseUrl);
   });
 
-  test('should logout successfully', async ({ page }) => {
-    await login(page, UserRole.standard_user);
-  
-    // Open the burger menu safely
-    const burgerMenu = page.locator(selectors.inventory.burgerMenu);
-    await burgerMenu.waitFor({ state: 'visible' });
-  
-    // Force click in case something intercepts it
-    await burgerMenu.click({ force: true });
-  
-    // Click the logout link
-    const logoutLink = page.locator(selectors.inventory.logoutLink);
-    await logoutLink.waitFor({ state: 'visible' });
-    await logoutLink.click();
-  
-    // Verify URL
-    await expect(page).toHaveURL(url.baseUrl);
+  test('should logout successfully', async () => {
+    await loginPage.loginAs(UserRole.standard_user);
+    await loginPage.logout();
+    await expect(loginPage.page).toHaveURL(url.baseUrl);
   });
 });

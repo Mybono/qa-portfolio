@@ -1,9 +1,14 @@
+import { CartPage, CheckOutPage, LoginPage, InventoryPage } from '../pages';
 import { Browser, test, expect, chromium } from '@playwright/test';
 import { selectors, url, inventorySelectors } from 'sdk/constants';
-import { login } from '../utils';
 import { userService, assetsTracker } from '../services';
 import { UserRole } from 'sdk/interfaces';
+
 let browser: Browser;
+let cartPage: CartPage;
+let checkOutPage: CheckOutPage;
+let inventoryPage: InventoryPage;
+let loginPage: LoginPage;
 
 test.beforeAll(async () => {
   browser = await chromium.launch({ headless: true });
@@ -15,29 +20,27 @@ test.afterAll(async () => {
 });
 
 test.beforeEach(async ({ page }) => {
-  await login(page, UserRole.standard_user);
+  loginPage = new LoginPage(page);
+  await loginPage.loginAs(UserRole.standard_user);
+  inventoryPage = new InventoryPage(page);
+  checkOutPage = new CheckOutPage(page);   
+  cartPage = new CartPage(page);           
 });
 
 test.describe('Inventory Page Tests', () => {
 
   test('E2E: Add all & Checkout', async ({ page }) => {
-    await page.goto(url.inventory);
-    for (const selector of inventorySelectors) {
-      await page.locator(selector).click();
-    }
+
+    await inventoryPage.addAllVisibleInventoryItems();
     await page.click(selectors.cart.shoppingCartLink);
     await page.waitForURL(url.cart);
     await expect(page.locator(selectors.cart.inventory_item_name)).toHaveCount(inventorySelectors.length);
-    await page.click(selectors.cart.checkoutBtn);
 
     //*CheckOutStepOne
-    await page.waitForURL(url.checkoutStepOne);
-    const standardUser = await userService.createUser();
-    assetsTracker.track({ users: standardUser._id });
-    await page.fill(selectors.checkout.firstName, standardUser.firstName);
-    await page.fill(selectors.checkout.lastName, standardUser.lastName);
-    await page.fill(selectors.checkout.postalCode, standardUser.postalCode);
-    await page.click(selectors.checkout.continueBtn);
+    const dammyUser = await userService.createUser(UserRole.standard_user);
+    assetsTracker.track({ users: dammyUser._id });
+    await checkOutPage.navigateToCheckoutForm();
+    await checkOutPage.fillCheckoutForm(dammyUser);
 
     //*CheckOutStepTwo
     await page.waitForURL(url.checkoutStepTwo);
@@ -45,7 +48,7 @@ test.describe('Inventory Page Tests', () => {
     await page.click(selectors.checkout.finish);
     await page.waitForURL(url.checkoutComplete);
     await page.click(selectors.checkout.backToProductsBtn);
-    await page.waitForURL(url.inventory);
+    await page.waitForURL(inventoryPage.pageUrlFragment);
   })
 
   test('should display all main UI elements', async ({ page }) => {

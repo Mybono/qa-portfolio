@@ -27,11 +27,9 @@ The project uses `docker compose` to orchestrate several key services:
 The recommended method is using **Docker Compose**, which handles the build process, networking, and execution of all test suites.
 
 ### 1. Setup and Initialization (Build and Run)
-
 Build all project images (TypeScript and Python) and run the necessary services (Mongo, Test Runners) in detached mode (`-d`). This command also handles the MongoDB initialization.
 
 From the root of the repository (`qa-portfolio`):
-
 
 ### Starting the Project
 ☕ **Grab a coffee!** Building and setting up the containers might take a few minutes.
@@ -39,7 +37,12 @@ From the root of the repository (`qa-portfolio`):
 ```powershell
 docker compose up --build -d
 ```
-
+ 
+To run tests with Playwright on TypeScript
 ```powershell
 docker compose exec -w /work/playwright_ts playwright_ts npx playwright test
 ```
+docker compose exec playwright_ts npx playwright init-agents --loop=vscode
+
+docker compose exec playwright_ts sh
+npm install -D @playwright/test

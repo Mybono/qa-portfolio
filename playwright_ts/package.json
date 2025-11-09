@@ -4,14 +4,14 @@
   "version": "1.0.0",
   "type": "commonjs",
   "dependencies": {
-    "sdk": "file:../sdk",
-    "mongodb": "6.8.0"
+    "mongodb": "6.8.0",
+    "sdk": "file:../sdk"
   },
   "devDependencies": {
-    "@playwright/test": "1.56.1",
+    "@playwright/test": "^1.56.1",
     "@types/node": "22.8.6",
-    "typescript": "5.6.3",
-    "prettier": "^3.0.0"
+    "prettier": "^3.0.0",
+    "typescript": "5.6.3"
   },
   "scripts": {
     "format": "prettier --write '**/*.{ts,js,json}'"

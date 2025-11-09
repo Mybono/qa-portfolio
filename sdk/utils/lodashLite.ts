@@ -118,18 +118,10 @@ class LodashLite {
             isDeleted: false,
             isVisible: true,
             email: this.getRandomEmail(username),
-            phone: this.getRandomPhoneNumber(), // Uncomment if 'phone' is added to the User interface
+            phone: this.getRandomPhoneNumber(), 
         };
         return newUser;
     }
 }
 
-/**
- * Export a single instance named '_' (underscore) for easy access.
- * This is a NAMED EXPORT to allow re-exporting via 'export * from'.
- */
 export const _ = new LodashLite();
-
-// NOTE: The final named export block (export { getRandomUser, ... }) 
-// has been removed. All utility functions are now accessed as methods of the 
-// exported '_' object (e.g., _.getRandomUser()).

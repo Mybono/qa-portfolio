@@ -1,6 +1,6 @@
 import { DbConnection, UserService } from 'sdk/services';
 import { logger, AssetsTracker } from 'sdk/utils';
-import { env } from '../config';
+import { env } from 'sdk/config';
 import { Db } from 'mongodb';
 
 type ServiceConstructor<T> = new (db: Db) => T;

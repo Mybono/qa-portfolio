@@ -1,59 +1,65 @@
-import { ObjectId, Collection, Db } from "mongodb";
-import { logger } from "../utils"; 
+import { Collection, Db, ObjectId } from 'mongodb';
+import { CollectionsType } from '../interfaces'; 
+import { logger } from '../utils';
 
-/**
- * SDK for tracking and cleaning up MongoDB assets.
- */
+
+type TrackedAssets = Partial<Record<CollectionsType, ObjectId[]>>;
+
 export class AssetsTracker {
-    private trackedAssets: Map<string, ObjectId[]> = new Map();
-    private dbInstance: Db; 
+  private db: Db;
+  private trackedAssets: TrackedAssets = {};
 
-    constructor(db: Db) {
-        this.dbInstance = db;
+  constructor(db: Db) {
+    this.db = db;
+  }
+
+  /**
+   * Track an asset by collection name (must be in CollectionsType) and its ObjectId
+   */
+  async track(params: Partial<Record<CollectionsType, ObjectId>>): Promise<void> {
+    for (const [collectionName, assetId] of Object.entries(params)) {
+      const key = collectionName as CollectionsType;
+      if (!this.trackedAssets[key]) {
+        this.trackedAssets[key] = [];
+      }
+      this.trackedAssets[key]!.push(assetId as ObjectId);
+      logger.debug(`Tracked asset ID ${assetId} in collection ${collectionName}`);
+    }
+  }
+
+  /**
+   * Cleanup tracked assets for the specified collections
+   */
+  async cleanup(collectionsToCleanup: Partial<Record<CollectionsType, boolean>>): Promise<void> {
+    const collections = Object.entries(collectionsToCleanup)
+      .filter(([_, shouldCleanup]) => shouldCleanup)
+      .map(([name]) => name as CollectionsType);
+
+    if (!collections.length) {
+      logger.warn('No collections specified for cleanup.');
+      return;
     }
 
-    public track(params: Record<string, ObjectId>): void {
-        const collectionName = Object.keys(params)[0];
-        const assetId = params[collectionName];
+    for (const collectionName of collections) {
+      const ids = this.trackedAssets[collectionName] || [];
+      if (!ids.length) {
+        logger.warn(`No tracked assets found in collection: ${collectionName}`);
+        continue;
+      }
 
-        if (!collectionName || !assetId) {
-            logger.error("[DbAssetsSDK.track]: Invalid input");
-            return;
-        }
+      try {
+        const collection: Collection = this.db.collection(collectionName);
+        const result = await collection.deleteMany({ _id: { $in: ids } });
+        logger.info(
+          `Deleted ${result.deletedCount}/${ids.length} assets from collection ${collectionName}`
+        );
+      } catch (error) {
+        logger.error(`Error cleaning collection ${collectionName}:`, error);
+      }
 
-        if (!this.trackedAssets.has(collectionName)) {
-            this.trackedAssets.set(collectionName, []);
-        }
-
-        this.trackedAssets.get(collectionName)!.push(assetId);
-        logger.debug(`[DbAssetsSDK.track]: Tracked ${collectionName} ID ${assetId.toHexString()}`);
+      this.trackedAssets[collectionName] = [];
     }
 
-    public async cleanup(collectionsToCleanup: Record<string, boolean>): Promise<void> {
-        const collections = Object.keys(collectionsToCleanup).filter(c => collectionsToCleanup[c]);
-        if (!collections.length) {
-            logger.warn("[DbAssetsSDK.cleanup]: No collections specified for cleanup.");
-            return;
-        }
-
-        for (const collectionName of collections) {
-            const ids = this.trackedAssets.get(collectionName);
-            if (!ids || ids.length === 0) {
-                logger.warn(`[DbAssetsSDK.cleanup]: No tracked assets in ${collectionName}`);
-                continue;
-            }
-
-            try {
-                const collection: Collection = this.dbInstance.collection(collectionName);
-                const result = await collection.deleteMany({ _id: { $in: ids } });
-                logger.info(`[DbAssetsSDK.cleanup]: Deleted ${result.deletedCount}/${ids.length} from ${collectionName}`);
-            } catch (err) {
-                logger.error(`[DbAssetsSDK.cleanup]: Error cleaning ${collectionName}: ${err}`);
-            }
-
-            this.trackedAssets.set(collectionName, []);
-        }
-
-        logger.info("[DbAssetsSDK.cleanup]: Cleanup complete.");
-    }
+    logger.info('Cleanup complete.');
+  }
 }

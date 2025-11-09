@@ -1,4 +1,4 @@
-import { User, UserRoleType, collections } from '../interfaces';
+import { User, UserRole, UserRoleType, collections } from '../interfaces';
 import { MongoService } from '../services';
 import { Db, ObjectId } from 'mongodb';
 import { _, logger } from '../utils';
@@ -16,9 +16,9 @@ export class UserService {
         this.mongoService = new MongoService<User>(collection);
     }
 
-    public async createUser(userData?: Omit<User, '_id'>, userRole?: UserRoleType): Promise<User> {
+    public async createUser(userRole?: UserRoleType, userData?: Omit<User, '_id'>): Promise<User> {
         try {
-            const doc = userData || _.getRandomUser(userRole || 'standard_user');
+            const doc = userData || _.getRandomUser(userRole || UserRole.standard_user);
             const inserted = await this.mongoService.insertOne(doc);
             logger.info(`[UserService] Created user ${inserted._id}`);
             return inserted;

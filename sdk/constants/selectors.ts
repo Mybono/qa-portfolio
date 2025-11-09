@@ -25,8 +25,9 @@ export const selectors = {
         shoppingCartLink: '[data-test="shopping-cart-link"]',
         continueShopping: '[data-test="continue-shopping"]',
         checkoutBtn: '[data-test="checkout"]',
-        inventoryItemPrice: '[data-test="inventory-item-price"]',
-        inventory_item_name: '.inventory_item_name'    },
+        inventory_item_price: '[data-test="inventory-item-price"]',
+        inventory_item_name: '.inventory_item_name'
+    },
     checkout: {
         continueBtn: '[data-test="continue"]',
         cancelBtn: '[data-test="cancel"]',
