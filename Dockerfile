@@ -9,6 +9,17 @@ RUN npm install @types/mongodb typescript --save-dev
 COPY sdk/ .
 RUN npm run build
 
+# === Install Java for Allure ===
+RUN apt-get update && \
+    apt-get install -y openjdk-17-jdk wget unzip && \
+    apt-get clean
+
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+ENV PATH="$JAVA_HOME/bin:$PATH"
+
+# === Install Allure CLI ===
+RUN npm install -g allure-commandline --save-dev
+
 # === Install Playwright (TypeScript) Dependencies ===
 WORKDIR /work/playwright_ts
 COPY playwright_ts/package*.json ./

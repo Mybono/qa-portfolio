@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
-    "@types/node": "22.8.6",
+    "@types/node": "^22.19.0",
     "allure-commandline": "^2.34.1",
     "allure-playwright": "^2.15.1",
     "prettier": "^3.0.0",
@@ -18,6 +18,7 @@
   "scripts": {
     "format": "prettier --write '**/*.{ts,js,json}'",
     "test": "playwright test --reporter=allure-playwright",
-    "allure:serve": "allure serve allure-results"
+    "allure:generate": "npx allure generate allure-results --clean -o allure-report",
+    "allure:open": "npx allure open allure-report --host 0.0.0.0 --port 8081"
   }
 }

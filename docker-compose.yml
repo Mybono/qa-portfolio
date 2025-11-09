@@ -24,16 +24,21 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    <<: *common-env
+    container_name: playwright_ts
     env_file:
       - ./.env
-    command: ["sleep", "infinity"]
+    environment:
+      MONGO_URL: mongodb://mongo:27017/qa_portfolio
+    depends_on:
+      - mongo
+    ports:
+      - "8081:8081"  
     shm_size: 1gb
-    container_name: playwright_ts
     volumes:
       - ./playwright_ts:/work/playwright_ts
-      - ./playwright_ts/allure-results:/work/playwright_ts/allure-results
-      - ./playwright_ts/allure-report:/work/playwright_ts/allure-report
+      - ./playwright_ts/allure-results:/work/playwright_ts/test-results/allure-results
+      - ./playwright_ts/allure-report:/work/playwright_ts/test-results/allure-report
+    command: ["sleep", "infinity"]  
 
   # 🐍 Playwright Tests (Python)
   playwright_py:

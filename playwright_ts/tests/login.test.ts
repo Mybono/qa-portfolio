@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { loginTest as test, expect } from "../fixtures";
 import { selectors, url } from "sdk/constants";
 import { BasePage, LoginPage } from "../pages";
 import { UserRole } from "sdk/interfaces";

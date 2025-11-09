@@ -6,10 +6,14 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
+    "baseUrl": ".",              
     "paths": {
       "sdk/*": [
         "../sdk/*"
-      ]
+      ],
+      "@fixtures/*": ["fixtures/*"],
+      "@pages/*": ["pages/*"],
+      "@tests/*": ["tests/*"]
     },
     "types": [
       "@playwright/test",
