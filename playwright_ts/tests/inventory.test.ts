@@ -126,3 +126,71 @@ test.describe("Inventory Page Tests", () => {
     await expect(page).toHaveURL(url.cart);
   });
 });
+
+
+test.describe("Inventory Page Tests", () => {
+
+  test("E2E: Add all & Checkout", async ({ inventoryPage, cartPage, checkOutPage }) => {
+    await inventoryPage.addAllVisibleInventoryItems();
+    await cartPage.goToCart();
+    await expect(cartPage.itemsLocator).toHaveCount(inventorySelectors.length);
+
+    //* CheckOut Step 1
+    const dammyUser = await userService.createUser(UserRole.standard_user);
+    assetsTracker.track({ users: dammyUser._id });
+    await checkOutPage.navigateToCheckoutForm();
+    await checkOutPage.fillCheckoutForm(dammyUser);
+
+    //* CheckOut Step 2
+    await checkOutPage.waitForStepTwo();
+    await checkOutPage.finishCheckout();
+
+    await inventoryPage.checkIsOnInventoryPage();
+  });
+
+  test("should display all main UI elements", async ({ inventoryPage }) => {
+    await inventoryPage.checkIsOnInventoryPage();
+  });
+
+  test("should add one product to cart", async ({ inventoryPage, cartPage }) => {
+    await inventoryPage.addProductToCart("backpack");
+    await expect(cartPage.cartBadge).toHaveText("1");
+    await expect(cartPage.removeButton("backpack")).toBeVisible();
+  });
+
+  test("should remove product from cart", async ({ inventoryPage, cartPage }) => {
+    await inventoryPage.addProductToCart("backpack");
+    await inventoryPage.removeProductFromCart("backpack");
+    await expect(cartPage.cartBadge).toBeHidden();
+  });
+
+  test("should sort items by price low→high", async ({ inventoryPage }) => {
+    await inventoryPage.sortItems("priceLowToHigh");
+    const prices = await inventoryPage.getAllPrices();
+    expect([...prices].sort((a, b) => a - b)).toEqual(prices);
+  });
+
+  test("should sort items by price high→low", async ({ inventoryPage }) => {
+    await inventoryPage.sortItems("priceHighToLow");
+    const prices = await inventoryPage.getAllPrices();
+    expect([...prices].sort((a, b) => b - a)).toEqual(prices);
+  });
+
+  test("should sort items by name A→Z", async ({ inventoryPage }) => {
+    await inventoryPage.sortItems("nameAZ");
+    const names = await inventoryPage.getAllNames();
+    expect([...names].sort((a, b) => a.localeCompare(b))).toEqual(names);
+  });
+
+  test("should sort items by name Z→A", async ({ inventoryPage }) => {
+    await inventoryPage.sortItems("nameZA");
+    const names = await inventoryPage.getAllNames();
+    expect([...names].sort((a, b) => b.localeCompare(a))).toEqual(names);
+  });
+
+  test("should navigate to cart", async ({ cartPage }) => {
+    await cartPage.goToCart();
+    await expect(cartPage.page).toHaveURL(url.cart);
+  });
+
+});

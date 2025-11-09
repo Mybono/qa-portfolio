@@ -78,4 +78,9 @@ export class CheckOutPage extends BasePage {
       throw new Error(`[fillCheckoutForm]: ${error}`);
     }
   }
+
+  async finishCheckout() {
+    await this.finishButton.click();
+    await this.page.waitForURL(url.checkoutComplete);
+  }
 }
