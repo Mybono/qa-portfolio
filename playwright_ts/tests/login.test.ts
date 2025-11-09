@@ -1,15 +1,17 @@
 import { test, expect } from '@playwright/test';
 import { selectors, url } from 'sdk/constants';
+import { BasePage, LoginPage } from '../pages';
 import { UserRole } from 'sdk/interfaces';
-import { LoginPage } from '../pages';
-import { env } from '../config/env';
+import { env } from 'sdk/config';
 
 test.describe('Login Page', () => {
   let loginPage: LoginPage;
+  let basePage: BasePage;
 
   test.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page);
-    await loginPage.navigateToLogin();
+    basePage = new BasePage(page)
+    await basePage.navigateTo(loginPage.pageUrl);
   });
 
   test('renders username, password fields and login button', async ({ page }) => {
