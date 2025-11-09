@@ -45,4 +45,5 @@ docker compose exec -w /work/playwright_ts playwright_ts npx playwright test
 docker compose exec playwright_ts npx playwright init-agents --loop=vscode
 
 docker compose exec playwright_ts sh
-npm install -D @playwright/test
+npx prettier --write "playwright_ts/**/*.ts"
+npm install

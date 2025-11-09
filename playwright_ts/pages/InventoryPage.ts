@@ -1,15 +1,16 @@
-import { expect, Page } from '@playwright/test';
-import { BasePage } from '../pages';
-import { url } from 'sdk/constants';
+import { expect, Page } from "@playwright/test";
+import { BasePage } from "../pages";
+import { url } from "sdk/constants";
 
 export class InventoryPage extends BasePage {
- static readonly selectors = {
+  static readonly selectors = {
     addToCartBackpack: '[data-test="add-to-cart-sauce-labs-backpack"]',
     addToCartBikeLight: '[data-test="add-to-cart-sauce-labs-bike-light"]',
     addToCartBoltTShirt: '[data-test="add-to-cart-sauce-labs-bolt-t-shirt"]',
     addToCartFleeceJacket: '[data-test="add-to-cart-sauce-labs-fleece-jacket"]',
     addToCartOnesie: '[data-test="add-to-cart-sauce-labs-onesie"]',
-    addToCartRedShirt: '[data-test="add-to-cart-test.allthethings()-t-shirt-(red)"]',
+    addToCartRedShirt:
+      '[data-test="add-to-cart-test.allthethings()-t-shirt-(red)"]',
 
     inventoryList: '[data-test="inventory-list"]',
     pageTitle: '[data-test="title"]',
@@ -24,7 +25,7 @@ export class InventoryPage extends BasePage {
     inventoryItemName: '[data-test="inventory-item-name"]',
     inventoryItemPrice: '[data-test="inventory-item-price"]',
 
-    menuButton: '#react-burger-menu-btn',
+    menuButton: "#react-burger-menu-btn",
     logoutLink: '[data-test="logout-sidebar-link"]',
     burgerMenu: '[data-test="open-menu"]',
 
@@ -61,21 +62,33 @@ export class InventoryPage extends BasePage {
   readonly burgerMenu;
 
   readonly sortDropdown;
-  readonly sortLowToHigh = 'lohi';
-  readonly sortHighToLow = 'hilo';
-  readonly sortNameAZ = 'az';
-  readonly sortNameZA = 'za';
+  readonly sortLowToHigh = "lohi";
+  readonly sortHighToLow = "hilo";
+  readonly sortNameAZ = "az";
+  readonly sortNameZA = "za";
 
   constructor(page: Page) {
     super(page);
     this.page = page;
 
-    this.addToCartBackpack = page.locator(InventoryPage.selectors.addToCartBackpack);
-    this.addToCartBikeLight = page.locator(InventoryPage.selectors.addToCartBikeLight);
-    this.addToCartBoltTShirt = page.locator(InventoryPage.selectors.addToCartBoltTShirt);
-    this.addToCartFleeceJacket = page.locator(InventoryPage.selectors.addToCartFleeceJacket);
-    this.addToCartOnesie = page.locator(InventoryPage.selectors.addToCartOnesie);
-    this.addToCartRedShirt = page.locator(InventoryPage.selectors.addToCartRedShirt);
+    this.addToCartBackpack = page.locator(
+      InventoryPage.selectors.addToCartBackpack,
+    );
+    this.addToCartBikeLight = page.locator(
+      InventoryPage.selectors.addToCartBikeLight,
+    );
+    this.addToCartBoltTShirt = page.locator(
+      InventoryPage.selectors.addToCartBoltTShirt,
+    );
+    this.addToCartFleeceJacket = page.locator(
+      InventoryPage.selectors.addToCartFleeceJacket,
+    );
+    this.addToCartOnesie = page.locator(
+      InventoryPage.selectors.addToCartOnesie,
+    );
+    this.addToCartRedShirt = page.locator(
+      InventoryPage.selectors.addToCartRedShirt,
+    );
 
     this.inventoryItems = [
       this.addToCartBackpack,
@@ -89,15 +102,23 @@ export class InventoryPage extends BasePage {
     this.inventoryList = page.locator(InventoryPage.selectors.inventoryList);
     this.pageTitle = page.locator(InventoryPage.selectors.pageTitle);
 
-    this.shoppingCartLink = page.locator(InventoryPage.selectors.shoppingCartLink);
+    this.shoppingCartLink = page.locator(
+      InventoryPage.selectors.shoppingCartLink,
+    );
     this.cartBadge = page.locator(InventoryPage.selectors.cartBadge);
     this.checkoutButton = page.locator(InventoryPage.selectors.checkoutButton);
     this.continueButton = page.locator(InventoryPage.selectors.continueButton);
     this.finishButton = page.locator(InventoryPage.selectors.finishButton);
-    this.backToProductsButton = page.locator(InventoryPage.selectors.backToProductsButton);
+    this.backToProductsButton = page.locator(
+      InventoryPage.selectors.backToProductsButton,
+    );
     this.completeHeader = page.locator(InventoryPage.selectors.completeHeader);
-    this.inventoryItemName = page.locator(InventoryPage.selectors.inventoryItemName);
-    this.inventoryItemPrice = page.locator(InventoryPage.selectors.inventoryItemPrice);
+    this.inventoryItemName = page.locator(
+      InventoryPage.selectors.inventoryItemName,
+    );
+    this.inventoryItemPrice = page.locator(
+      InventoryPage.selectors.inventoryItemPrice,
+    );
 
     this.menuButton = page.locator(InventoryPage.selectors.menuButton);
     this.logoutLink = page.locator(InventoryPage.selectors.logoutLink);
@@ -112,7 +133,7 @@ export class InventoryPage extends BasePage {
   }
 
   async addAllVisibleInventoryItems() {
-    await this.checkIsOnInventoryPage()
+    await this.checkIsOnInventoryPage();
     for (const item of this.inventoryItems) {
       if (await item.isVisible()) {
         await item.click();

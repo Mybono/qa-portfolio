@@ -32,6 +32,8 @@ services:
     container_name: playwright_ts
     volumes:
       - ./playwright_ts:/work/playwright_ts
+      - ./playwright_ts/allure-results:/work/playwright_ts/allure-results
+      - ./playwright_ts/allure-report:/work/playwright_ts/allure-report
 
   # 🐍 Playwright Tests (Python)
   playwright_py:

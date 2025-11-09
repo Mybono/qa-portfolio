@@ -13,10 +13,12 @@ RUN npm run build
 WORKDIR /work/playwright_ts
 COPY playwright_ts/package*.json ./
 RUN npm install
-RUN npm install -D @playwright/test
+RUN npm install -D @playwright/test allure-commandline
 RUN npx playwright install
 COPY playwright_ts/ .
 COPY .env ./.env
 
+RUN mkdir -p /work/playwright_ts/allure-results /work/playwright_ts/allure-report
+
 # Default command: run tests
-CMD ["npx", "playwright", "test"]
+CMD ["npx", "playwright", "test", "--reporter=allure-playwright"]
