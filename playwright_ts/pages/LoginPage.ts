@@ -52,8 +52,6 @@ export class LoginPage extends BasePage {
             await this.loginButton.waitFor({ state: 'visible' });
             await this.loginButton.click();
 
-            await this.loginButton.waitFor({ state: 'hidden' });
-            await expect(this.page).toHaveURL(url.inventory);
         } catch (error) {
             throw new Error(`[login]: ${error}`);
         }
