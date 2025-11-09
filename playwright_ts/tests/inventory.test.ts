@@ -1,5 +1,6 @@
 import { CartPage, CheckOutPage, LoginPage, InventoryPage } from "../pages";
-import { Browser, test, expect, chromium } from "@playwright/test";
+import { inventoryTest as test, expect } from "../fixtures";
+import { Browser, chromium } from "@playwright/test";
 import { selectors, url, inventorySelectors } from "sdk/constants";
 import { userService, assetsTracker } from "../services";
 import { UserRole } from "sdk/interfaces";
@@ -50,7 +51,7 @@ test.describe("Inventory Page Tests", () => {
     await page.click(selectors.checkout.finish);
     await page.waitForURL(url.checkoutComplete);
     await page.click(selectors.checkout.backToProductsBtn);
-    await page.waitForURL(inventoryPage.pageUrlFragment);
+    await page.waitForURL(inventoryPage.pageUrl);
   });
 
   test("should display all main UI elements", async ({ page }) => {

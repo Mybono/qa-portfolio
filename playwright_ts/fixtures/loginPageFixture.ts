@@ -7,7 +7,7 @@ type Fixtures = {
   loggedInPage: LoginPage;
 };
 
-export const test = base.extend<Fixtures>({
+export const loginTest = base.extend<Fixtures>({
   loginPage: async ({ page }, use) => {
     const loginPage = new LoginPage(page);
     await page.goto(loginPage.pageUrl); 
