@@ -37,18 +37,29 @@ From the root of the repository (`qa-portfolio`):
 ```powershell
 docker compose up --build -d
 ```
- 
-To run tests with Playwright on TypeScript
+
+Run Playwright Tests (TypeScript)
+1. Start an interactive shell in the container:
+```powershell
+docker compose exec playwright_ts sh
+```
+2. Install dependencies (if not already installed):
+```powershell
+npm install
+```
+3. Run all tests:
 ```powershell
 docker compose exec -w /work/playwright_ts playwright_ts npx playwright test
 ```
-To view test-report
+
+💡 Tip: To open the HTML report after tests, you can run:
 ```powershell
+# macOS
+open ./playwright_ts/playwright-report/index.html
+# Windows
 start ./playwright_ts/playwright-report/index.html
 ```
 
 ```powershell
 docker compose exec playwright_ts sh
-npx prettier --write "**/*.ts"
-npm install
 ```
