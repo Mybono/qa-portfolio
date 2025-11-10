@@ -17,6 +17,7 @@ The project uses `docker compose` to orchestrate several key services:
 | Service Name | Technology | Role |
 | :--- | :--- | :--- |
 | **`mongo`** | MongoDB | Isolated database for storing and managing test data. |
+| **`sdk`** |  **TypeScript** |Shared library for Playwright TypeScript projects (playwright_ts). |
 | **`playwright_ts`** | Playwright / **TypeScript** | Environment for running **End-to-End tests** using Node.js. |
 | **`playwright_py`** | Playwright / **Python** | Environment for running **End-to-End tests** using Pytest. |
 
