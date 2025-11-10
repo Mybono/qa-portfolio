@@ -23,7 +23,6 @@ export class LoginPage extends BasePage {
   constructor(page: Page) {
     super(page);
     this.pageUrl = url.baseUrl;
-
     this.usernameInput = page.locator(LoginPage.selectors.usernameInput);
     this.passwordInput = page.locator(LoginPage.selectors.passwordInput);
     this.loginButton = page.locator(LoginPage.selectors.loginButton);
@@ -63,7 +62,7 @@ export class LoginPage extends BasePage {
 
   async logout() {
     try {
-      const burgerMenu = this.page.locator(InventoryPage.selectors.menuButton);
+      const burgerMenu = this.page.locator(InventoryPage.selectors.burgerMenu);
       await burgerMenu.waitFor({ state: "visible" });
       await burgerMenu.click({ force: true });
 

@@ -4,7 +4,8 @@ node_modules/
 
 # Playwright outputs
 playwright-report/
-**/playwright-report/
+**/allure-report/
+**/allure-results/
 playwright/.cache/
 **/test-results/
 

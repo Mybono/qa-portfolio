@@ -1,6 +1,7 @@
-import { Page } from "@playwright/test";
+import { Page, Locator } from "@playwright/test";
 import { BasePage } from "../pages";
 import { url } from "sdk/constants";
+import { InventoryPage } from "./InventoryPage";
 
 export class CartPage extends BasePage {
   static readonly selectors = {
@@ -8,17 +9,26 @@ export class CartPage extends BasePage {
     continueShopping: '[data-test="continue-shopping"]',
     checkoutBtn: '[data-test="checkout"]',
     inventory_item_price: '[data-test="inventory-item-price"]',
-    inventory_item_name: ".inventory_item_name",
+    inventory_item_name: '[data-test="inventory-item-name"]',
+    cartBadge: '[data-test="shopping-cart-badge"]',
   };
 
   readonly page: Page;
   readonly pageUrl = url.cart;
 
-  readonly shoppingCartLink;
-  readonly continueShopping;
-  readonly checkoutBtn;
-  readonly inventory_item_price;
-  readonly inventory_item_name;
+  readonly shoppingCartLink: Locator;
+  readonly continueShopping: Locator;
+  readonly checkoutBtn: Locator;
+  readonly inventory_item_price: Locator;
+  readonly inventory_item_name: Locator;
+  readonly cartBadge: Locator;
+
+  readonly removeBackpack: Locator;
+  readonly removeBikeLight: Locator;
+  readonly removeBoltTShirt: Locator;
+  readonly removeFleeceJacket: Locator;
+  readonly removeOnesie: Locator;
+  readonly removeRedShirt: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -33,5 +43,57 @@ export class CartPage extends BasePage {
     this.inventory_item_name = page.locator(
       CartPage.selectors.inventory_item_name,
     );
+    this.cartBadge = page.locator(CartPage.selectors.cartBadge);
+
+    this.removeBackpack = page.locator(InventoryPage.selectors.removeBackpack);
+    this.removeBikeLight = page.locator(
+      InventoryPage.selectors.removeBikeLight,
+    );
+    this.removeBoltTShirt = page.locator(
+      InventoryPage.selectors.removeBoltTShirt,
+    );
+    this.removeFleeceJacket = page.locator(
+      InventoryPage.selectors.removeFleeceJacket,
+    );
+    this.removeOnesie = page.locator(InventoryPage.selectors.removeOnesie);
+    this.removeRedShirt = page.locator(InventoryPage.selectors.removeRedShirt);
+  }
+
+  async removeProduct(
+    product: keyof Pick<
+      typeof InventoryPage.selectors,
+      | "removeBackpack"
+      | "removeBikeLight"
+      | "removeBoltTShirt"
+      | "removeFleeceJacket"
+      | "removeOnesie"
+      | "removeRedShirt"
+    >,
+  ) {
+    const removeLocator = (this as any)[product] as Locator;
+    if (removeLocator) await removeLocator.click();
+  }
+
+  async getRemoveButton(
+    product: keyof Pick<
+      typeof InventoryPage.selectors,
+      | "removeBackpack"
+      | "removeBikeLight"
+      | "removeBoltTShirt"
+      | "removeFleeceJacket"
+      | "removeOnesie"
+      | "removeRedShirt"
+    >,
+  ): Promise<Locator> {
+    return this.page.locator(InventoryPage.selectors[product]);
+  }
+
+  async goToCheckout() {
+    await this.checkoutBtn.click();
+    await this.page.waitForURL(url.checkoutStepOne);
+  }
+
+  async getAllItems() {
+    return this.page.locator(InventoryPage.selectors.inventoryItemName);
   }
 }

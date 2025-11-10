@@ -2,21 +2,25 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "CommonJS",
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",              
     "paths": {
-      "sdk/*": [
-        "../sdk/*"
-      ]
+      "sdk": ["../sdk"],
+      "sdk/*": ["../sdk/*"],
+      "@fixtures/*": ["fixtures/*"],
+      "@pages/*": ["pages/*"],
+      "@tests/*": ["tests/*"]
     },
     "types": [
       "@playwright/test",
       "node"
     ],
     "strict": true,
-    "skipLibCheck": true,
     "noEmit": true
   },
   "include": [

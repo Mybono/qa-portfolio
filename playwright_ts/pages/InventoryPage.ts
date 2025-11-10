@@ -1,6 +1,7 @@
 import { expect, Page } from "@playwright/test";
 import { BasePage } from "../pages";
-import { url } from "sdk/constants";
+import { selectors, url } from "sdk/constants";
+import { env } from "sdk/config";
 
 export class InventoryPage extends BasePage {
   static readonly selectors = {
@@ -9,135 +10,138 @@ export class InventoryPage extends BasePage {
     addToCartBoltTShirt: '[data-test="add-to-cart-sauce-labs-bolt-t-shirt"]',
     addToCartFleeceJacket: '[data-test="add-to-cart-sauce-labs-fleece-jacket"]',
     addToCartOnesie: '[data-test="add-to-cart-sauce-labs-onesie"]',
-    addToCartRedShirt:
-      '[data-test="add-to-cart-test.allthethings()-t-shirt-(red)"]',
+    addToCartRedShirt: '[data-test="add-to-cart-test.allthethings()-t-shirt-(red)"]',
+
+    removeBackpack: '[data-test="remove-sauce-labs-backpack"]',
+    removeBikeLight: '[data-test="remove-sauce-labs-bike-light"]',
+    removeBoltTShirt: '[data-test="remove-sauce-labs-bolt-t-shirt"]',
+    removeFleeceJacket: '[data-test="remove-sauce-labs-fleece-jacket"]',
+    removeOnesie: '[data-test="remove-sauce-labs-onesie"]',
+    removeRedShirt: '[data-test="remove-test.allthethings()-t-shirt-(red)"]',
 
     inventoryList: '[data-test="inventory-list"]',
     pageTitle: '[data-test="title"]',
-
     shoppingCartLink: '[data-test="shopping-cart-link"]',
     cartBadge: '[data-test="shopping-cart-badge"]',
-    checkoutButton: '[data-test="checkout"]',
-    continueButton: '[data-test="continue"]',
-    finishButton: '[data-test="finish"]',
-    backToProductsButton: '[data-test="back-to-products"]',
-    completeHeader: '[data-test="checkout_complete_container"] h2',
     inventoryItemName: '[data-test="inventory-item-name"]',
     inventoryItemPrice: '[data-test="inventory-item-price"]',
-
-    menuButton: "#react-burger-menu-btn",
+    sortDropdown: 'select[data-test="product-sort-container"]',
     logoutLink: '[data-test="logout-sidebar-link"]',
     burgerMenu: '[data-test="open-menu"]',
-
-    sortDropdown: 'select[data-test="product_sort_container"]',
   };
 
   readonly page: Page;
-  readonly pageUrlFragment = url.inventory;
-
-  readonly addToCartBackpack;
-  readonly addToCartBikeLight;
-  readonly addToCartBoltTShirt;
-  readonly addToCartFleeceJacket;
-  readonly addToCartOnesie;
-  readonly addToCartRedShirt;
-
-  readonly inventoryItems;
-
-  readonly inventoryList;
+  readonly pageUrl;
   readonly pageTitle;
-
+  readonly inventoryList;
   readonly shoppingCartLink;
   readonly cartBadge;
-  readonly checkoutButton;
-  readonly continueButton;
-  readonly finishButton;
-  readonly backToProductsButton;
-  readonly completeHeader;
   readonly inventoryItemName;
   readonly inventoryItemPrice;
-
-  readonly menuButton;
-  readonly logoutLink;
-  readonly burgerMenu;
-
   readonly sortDropdown;
-  readonly sortLowToHigh = "lohi";
-  readonly sortHighToLow = "hilo";
-  readonly sortNameAZ = "az";
-  readonly sortNameZA = "za";
+  readonly inventoryItems;
 
   constructor(page: Page) {
     super(page);
     this.page = page;
-
-    this.addToCartBackpack = page.locator(
-      InventoryPage.selectors.addToCartBackpack,
-    );
-    this.addToCartBikeLight = page.locator(
-      InventoryPage.selectors.addToCartBikeLight,
-    );
-    this.addToCartBoltTShirt = page.locator(
-      InventoryPage.selectors.addToCartBoltTShirt,
-    );
-    this.addToCartFleeceJacket = page.locator(
-      InventoryPage.selectors.addToCartFleeceJacket,
-    );
-    this.addToCartOnesie = page.locator(
-      InventoryPage.selectors.addToCartOnesie,
-    );
-    this.addToCartRedShirt = page.locator(
-      InventoryPage.selectors.addToCartRedShirt,
-    );
-
-    this.inventoryItems = [
-      this.addToCartBackpack,
-      this.addToCartBikeLight,
-      this.addToCartBoltTShirt,
-      this.addToCartFleeceJacket,
-      this.addToCartOnesie,
-      this.addToCartRedShirt,
-    ];
-
-    this.inventoryList = page.locator(InventoryPage.selectors.inventoryList);
+    this.pageUrl = url.inventory;
     this.pageTitle = page.locator(InventoryPage.selectors.pageTitle);
-
-    this.shoppingCartLink = page.locator(
-      InventoryPage.selectors.shoppingCartLink,
-    );
+    this.inventoryList = page.locator(InventoryPage.selectors.inventoryList);
+    this.shoppingCartLink = page.locator(InventoryPage.selectors.shoppingCartLink);
     this.cartBadge = page.locator(InventoryPage.selectors.cartBadge);
-    this.checkoutButton = page.locator(InventoryPage.selectors.checkoutButton);
-    this.continueButton = page.locator(InventoryPage.selectors.continueButton);
-    this.finishButton = page.locator(InventoryPage.selectors.finishButton);
-    this.backToProductsButton = page.locator(
-      InventoryPage.selectors.backToProductsButton,
-    );
-    this.completeHeader = page.locator(InventoryPage.selectors.completeHeader);
-    this.inventoryItemName = page.locator(
-      InventoryPage.selectors.inventoryItemName,
-    );
-    this.inventoryItemPrice = page.locator(
-      InventoryPage.selectors.inventoryItemPrice,
-    );
-
-    this.menuButton = page.locator(InventoryPage.selectors.menuButton);
-    this.logoutLink = page.locator(InventoryPage.selectors.logoutLink);
-    this.burgerMenu = page.locator(InventoryPage.selectors.burgerMenu);
-
+    this.inventoryItemName = page.locator(InventoryPage.selectors.inventoryItemName);
+    this.inventoryItemPrice = page.locator(InventoryPage.selectors.inventoryItemPrice);
     this.sortDropdown = page.locator(InventoryPage.selectors.sortDropdown);
+
+    // ✅ Исправлено: используем селекторы напрямую
+    this.inventoryItems = [
+      InventoryPage.selectors.addToCartBackpack,
+      InventoryPage.selectors.addToCartBikeLight,
+      InventoryPage.selectors.addToCartBoltTShirt,
+      InventoryPage.selectors.addToCartFleeceJacket,
+      InventoryPage.selectors.addToCartOnesie,
+      InventoryPage.selectors.addToCartRedShirt,
+    ];
   }
 
+  // ==========================
+  // Page Assertions / Checks
+  // ==========================
   async checkIsOnInventoryPage() {
-    await expect(this.page).toHaveURL(new RegExp(this.pageUrlFragment));
-    await expect(this.inventoryList).toBeVisible();
+    await expect.soft(this.page).toHaveURL(new RegExp(url.inventory));
+    await expect.soft(this.pageTitle).toHaveText("Products");
+    await expect.soft(this.sortDropdown).toBeVisible();
+    await expect.soft(this.shoppingCartLink).toBeVisible();
+    await expect.soft(this.inventoryList).toBeVisible();
   }
 
+  // ==========================
+  // Actions
+  // ==========================
   async addAllVisibleInventoryItems() {
-    await this.checkIsOnInventoryPage();
-    for (const item of this.inventoryItems) {
-      if (await item.isVisible()) {
-        await item.click();
+    try {
+      await this.checkIsOnInventoryPage();
+      for (const selector of this.inventoryItems) {
+        const item = this.page.locator(selector);
+        if (await item.isVisible()) {
+          await item.click();
+        }
       }
+    } catch (error) {
+      throw new Error(`[addAllVisibleInventoryItems]: ${error}`);
     }
+  }
+
+  async addProductToCart(productLocator: keyof typeof InventoryPage.selectors) {
+    try {
+      const locator = this.page.locator(InventoryPage.selectors[productLocator]);
+      await locator.waitFor({ state: "visible", timeout: env.TIMEOUT });
+      await locator.click();
+    } catch (error) {
+      throw new Error(`[addProductToCart]: ${error}`);
+    }
+  }
+
+  async removeProductFromCart(productLocator: keyof typeof InventoryPage.selectors) {
+    try {
+      const locator = this.page.locator(InventoryPage.selectors[productLocator]);
+      await locator.waitFor({ state: "visible", timeout: env.TIMEOUT });
+      await locator.click();
+    } catch (error) {
+      throw new Error(`[removeProductFromCart]: ${error}`);
+    }
+  }
+
+  async sortItems(option: "priceLowToHigh" | "priceHighToLow" | "nameAZ" | "nameZA") {
+    try {
+      const mapping = {
+        priceLowToHigh: "lohi",
+        priceHighToLow: "hilo",
+        nameAZ: "az",
+        nameZA: "za",
+      };
+      await this.page.waitForURL(url.inventory);
+      await this.sortDropdown.waitFor({ state: "visible", timeout: env.TIMEOUT });
+      await this.sortDropdown.selectOption(mapping[option]);
+    } catch (error) {
+      throw new Error(`[sortItems]: ${error}`);
+    }
+  }
+
+  async getAllPrices(): Promise<number[]> {
+    return await this.inventoryItemPrice.evaluateAll((els) =>
+      els.map((el) => parseFloat(el.textContent.replace("$", "").trim())),
+    );
+  }
+
+  async getAllNames(): Promise<string[]> {
+    return await this.inventoryItemName.evaluateAll((els) =>
+      els.map((el) => el.textContent.trim().toLowerCase()),
+    );
+  }
+
+  async goToCart() {
+    await this.shoppingCartLink.click();
+    await this.page.waitForURL(/cart/);
   }
 }

@@ -1,3 +1,3 @@
 export * from './logger';
-export * from './lodashLite';
+export * from './testDataGenerator';
 export * from './assetsTracker';

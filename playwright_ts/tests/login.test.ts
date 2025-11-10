@@ -4,7 +4,7 @@ import { BasePage, LoginPage } from "../pages";
 import { UserRole } from "sdk/interfaces";
 import { env } from "sdk/config";
 
-test.describe("Login Page", () => {
+test.describe("Login Page @login @regression", () => {
   let loginPage: LoginPage;
   let basePage: BasePage;
 
