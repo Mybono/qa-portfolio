@@ -8,7 +8,7 @@ playwright-report/
 **/allure-results/
 playwright/.cache/
 **/test-results/
-
+**auth
 # Coverage & dist
 coverage/
 dist/

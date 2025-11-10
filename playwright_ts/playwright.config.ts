@@ -5,7 +5,7 @@ export default defineConfig({
   testDir: "./tests",
 
   fullyParallel: true,
-  workers: process.env.CI ? 2 : 6,
+  workers: process.env.CI ? 2 : 8,
   retries: process.env.CI ? 2 : 0,
 
   timeout: env.TIMEOUT,
@@ -47,8 +47,9 @@ export default defineConfig({
       testMatch: /tests\/(inventory|cart|checkout)\.test\.ts/,
       use: {
         ...devices["Desktop Chrome"],
-      storageState: "config/user.json",
+      storageState: "./auth/user.json",
       },
+      dependencies: ["setup"],
     },
   ],
 });

@@ -28,5 +28,5 @@
     "config/**/*.ts",
     "constants/**/*.ts",
     "interfaces/collections.ts"
-  ]
+, "tests/auth.setup.ts"  ]
 }
