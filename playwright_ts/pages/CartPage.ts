@@ -10,7 +10,7 @@ export class CartPage extends BasePage {
     checkoutBtn: '[data-test="checkout"]',
     inventory_item_price: '[data-test="inventory-item-price"]',
     inventory_item_name: '[data-test="inventory-item-name"]',
-    cartBadge: '[data-test="shopping-cart-badge"]', 
+    cartBadge: '[data-test="shopping-cart-badge"]',
   };
 
   readonly page: Page;
@@ -23,7 +23,6 @@ export class CartPage extends BasePage {
   readonly inventory_item_name: Locator;
   readonly cartBadge: Locator;
 
-  // кнопки удаления
   readonly removeBackpack: Locator;
   readonly removeBikeLight: Locator;
   readonly removeBoltTShirt: Locator;
@@ -40,7 +39,7 @@ export class CartPage extends BasePage {
     this.checkoutBtn = page.locator(CartPage.selectors.checkoutBtn);
     this.inventory_item_price = page.locator(CartPage.selectors.inventory_item_price);
     this.inventory_item_name = page.locator(CartPage.selectors.inventory_item_name);
-    this.cartBadge = page.locator(CartPage.selectors.cartBadge); 
+    this.cartBadge = page.locator(CartPage.selectors.cartBadge);
 
     this.removeBackpack = page.locator(InventoryPage.selectors.removeBackpack);
     this.removeBikeLight = page.locator(InventoryPage.selectors.removeBikeLight);
@@ -54,6 +53,13 @@ export class CartPage extends BasePage {
     'removeBackpack' | 'removeBikeLight' | 'removeBoltTShirt' | 'removeFleeceJacket' | 'removeOnesie' | 'removeRedShirt'>) {
     const removeLocator = (this as any)[product] as Locator;
     if (removeLocator) await removeLocator.click();
+  }
+
+  async getRemoveButton(product: keyof Pick<
+    typeof InventoryPage.selectors,
+    'removeBackpack' | 'removeBikeLight' | 'removeBoltTShirt' | 'removeFleeceJacket' | 'removeOnesie' | 'removeRedShirt'
+  >): Promise<Locator> {
+    return this.page.locator(InventoryPage.selectors[product]);
   }
 
   async goToCheckout() {
