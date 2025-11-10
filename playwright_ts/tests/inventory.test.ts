@@ -3,7 +3,7 @@ import { url, inventorySelectors } from "sdk/constants";
 import { userService, assetsTracker } from "../services";
 import { UserRole } from "sdk/interfaces";
 
-test.describe("Inventory Page Tests", () => {
+test.describe("Inventory Page Tests @regression", () => {
   test("E2E: Add all & Checkout", async ({
     inventoryPage,
     cartPage,

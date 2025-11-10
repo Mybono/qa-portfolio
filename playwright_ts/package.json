@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
+    "@axe-core/playwright": "^4.11.0",
     "@types/node": "^22.19.0",
     "allure-commandline": "^2.34.1",
     "allure-playwright": "^2.15.1",

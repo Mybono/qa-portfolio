@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { url } from 'sdk/constants';
 import { logger } from 'sdk/utils';
 
-test('page load performance', async ({ page }) => {
+test('page @load performance', async ({ page }) => {
   const startTime = Date.now();
   
   await page.goto(url.inventory);
