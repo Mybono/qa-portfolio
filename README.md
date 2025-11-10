@@ -41,9 +41,14 @@ docker compose up --build -d
 To run tests with Playwright on TypeScript
 ```powershell
 docker compose exec -w /work/playwright_ts playwright_ts npx playwright test
-docker compose exec -w /work/playwright_ts playwright_ts npm run allure:generate
+```
+To view test-report
+```powershell
+start ./playwright_ts/playwright-report/index.html
 ```
 
+```powershell
 docker compose exec playwright_ts sh
 npx prettier --write "**/*.ts"
 npm install
+```

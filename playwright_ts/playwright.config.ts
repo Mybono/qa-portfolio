@@ -14,7 +14,7 @@ export default defineConfig({
   },
 
   reporter: [
-    ["html", { open: "never" }],
+    ["html", { open: "always" }],
     ["allure-playwright"],
     ["list"],
     ["junit", { outputFile: "test-results/junit.xml" }],
@@ -42,12 +42,12 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
       },
     },
-      {
-      name: "Inventory-tests",
-      testMatch: /tests\/(inventory|cart|checkout)\.test\.ts/,
+    {
+      name: "tests",
+      testMatch: /tests\/(?!login).*\.test\.ts/,
       use: {
         ...devices["Desktop Chrome"],
-      storageState: "./auth/user.json",
+        storageState: "./auth/user.json",
       },
       dependencies: ["setup"],
     },

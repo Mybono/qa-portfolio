@@ -16,6 +16,6 @@
   },
   "scripts": {
     "format": "prettier --write '**/*.{ts,js,json}'",
-    "test": "playwright test --reporter=allure-playwright"
+    "test:report": "docker compose exec -w /work/playwright_ts playwright_ts npx playwright test && start playwright-report/index.html"
   }
 }
