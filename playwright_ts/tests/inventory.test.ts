@@ -1,9 +1,7 @@
 import { url, inventorySelectors } from "sdk/constants";
 import { test, expect } from "../fixtures";
 
-
 test.describe("Inventory Page Tests @regression", () => {
-
   test("E2E: Add all & Checkout", async ({
     inventoryPage,
     cartPage,
@@ -27,12 +25,18 @@ test.describe("Inventory Page Tests @regression", () => {
     await inventoryPage.checkIsOnInventoryPage();
   });
 
-  test("should add one product to cart", async ({ inventoryPage, cartPage }) => {
+  test("should add one product to cart", async ({
+    inventoryPage,
+    cartPage,
+  }) => {
     await inventoryPage.addProductToCart("addToCartBackpack");
     await expect(cartPage.cartBadge).toHaveText("1");
   });
 
-  test("should remove product from cart", async ({ inventoryPage, cartPage }) => {
+  test("should remove product from cart", async ({
+    inventoryPage,
+    cartPage,
+  }) => {
     await inventoryPage.addProductToCart("addToCartBackpack");
     await inventoryPage.removeProductFromCart("addToCartBackpack");
     await expect(cartPage.cartBadge).toBeHidden();
@@ -66,5 +70,4 @@ test.describe("Inventory Page Tests @regression", () => {
     await inventoryPage.goToCart();
     await expect(page).toHaveURL(url.cart);
   });
-
 });

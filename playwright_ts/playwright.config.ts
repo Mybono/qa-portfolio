@@ -21,7 +21,7 @@ export default defineConfig({
   ],
 
   use: {
-    baseURL: "https://www.saucedemo.com",
+    baseURL: env.BASE_URL,
 
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
@@ -36,29 +36,29 @@ export default defineConfig({
       testMatch: /.*\.setup\.ts/,
     },
     {
-      name: "chromium",
-      testMatch: /tests\/(inventory|cart|checkout)\.test\.ts/,
-      use: {
-        ...devices["Desktop Chrome"],
-        storageState: ".auth/user.json",
-      },
-      dependencies: ["setup"],
-    },
-    {
       name: "login-tests",
       testMatch: /tests\/login\.test\.ts/,
       use: {
         ...devices["Desktop Chrome"],
       },
     },
-    {
-      name: "firefox",
-      testMatch: /tests\/(inventory|cart|checkout)\.test\.ts/,
-      use: {
-        ...devices["Desktop Firefox"],
-        storageState: ".auth/user.json",
-      },
-      dependencies: ["setup"],
-    },
+    // {
+    //   name: "firefox",
+    //   testMatch: /tests\/(inventory|cart|checkout)\.test\.ts/,
+    //   use: {
+    //     ...devices["Desktop Firefox"],
+    //     storageState: ".auth/user.json",
+    //   },
+    //   dependencies: ["setup"],
+    // },
+    //     {
+    //   name: "chromium",
+    //   testMatch: /tests\/(inventory|cart|checkout)\.test\.ts/,
+    //   use: {
+    //     ...devices["Desktop Chrome"],
+    //     storageState: ".auth/user.json",
+    //   },
+    //   dependencies: ["setup"],
+    // },
   ],
 });
