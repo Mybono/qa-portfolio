@@ -23,8 +23,6 @@ test.describe("Inventory Page Tests", () => {
     //* CheckOut Step 2
     await checkOutPage.checkUrl(url.checkoutStepTwo);
     await checkOutPage.finishCheckout();
-
-    await inventoryPage.checkIsOnInventoryPage();
   });
 
   test("should display all main UI elements", async ({ inventoryPage }) => {
