@@ -36,8 +36,8 @@ services:
     shm_size: 1gb
     volumes:
       - ./playwright_ts:/work/playwright_ts
-      - ./playwright_ts/allure-results:/work/playwright_ts/test-results/allure-results
-      - ./playwright_ts/allure-report:/work/playwright_ts/test-results/allure-report
+      - ./playwright_ts/test-results/allure-results:/work/playwright_ts/test-results/allure-results
+      - ./playwright_ts/test-results/allure-report:/work/playwright_ts/test-results/allure-report
     command: ["sleep", "infinity"]  
 
   # 🐍 Playwright Tests (Python)

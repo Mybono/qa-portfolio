@@ -10,12 +10,12 @@ type Fixtures = {
 export const loginTest = base.extend<Fixtures>({
   loginPage: async ({ page }, use) => {
     const loginPage = new LoginPage(page);
-    await page.goto(loginPage.pageUrl); 
+    await page.goto(loginPage.pageUrl);
     await use(loginPage);
   },
   loggedInPage: async ({ page }, use) => {
     const loginPage = new LoginPage(page);
-    await page.goto(loginPage.pageUrl); 
+    await page.goto(loginPage.pageUrl);
     await loginPage.loginAs(UserRole.standard_user);
     await use(loginPage);
   },

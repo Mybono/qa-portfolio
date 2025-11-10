@@ -17,8 +17,7 @@ export class InventoryPage extends BasePage {
     removeBoltTShirt: '[data-test="remove-sauce-labs-bolt-t-shirt"]',
     removeFleeceJacket: '[data-test="remove-sauce-labs-fleece-jacket"]',
     removeOnesie: '[data-test="remove-sauce-labs-onesie"]',
-    removeRedShirt:
-      '[data-test="remove-test.allthethings()-t-shirt-(red)"]',
+    removeRedShirt: '[data-test="remove-test.allthethings()-t-shirt-(red)"]',
 
     inventoryList: '[data-test="inventory-list"]',
     pageTitle: '[data-test="title"]',
@@ -27,10 +26,12 @@ export class InventoryPage extends BasePage {
     inventoryItemName: '[data-test="inventory-item-name"]',
     inventoryItemPrice: '[data-test="inventory-item-price"]',
     sortDropdown: 'select[data-test="product_sort_container"]',
+    logoutLink: '[data-test="logout-sidebar-link"]',
+    burgerMenu: '[data-test="open-menu"]',
   };
 
   readonly page: Page;
-
+  readonly pageUrl;
   readonly pageTitle;
   readonly inventoryList;
   readonly shoppingCartLink;
@@ -42,18 +43,18 @@ export class InventoryPage extends BasePage {
   constructor(page: Page) {
     super(page);
     this.page = page;
-
+    this.pageUrl = url.inventory;
     this.pageTitle = page.locator(InventoryPage.selectors.pageTitle);
     this.inventoryList = page.locator(InventoryPage.selectors.inventoryList);
     this.shoppingCartLink = page.locator(
-      InventoryPage.selectors.shoppingCartLink
+      InventoryPage.selectors.shoppingCartLink,
     );
     this.cartBadge = page.locator(InventoryPage.selectors.cartBadge);
     this.inventoryItemName = page.locator(
-      InventoryPage.selectors.inventoryItemName
+      InventoryPage.selectors.inventoryItemName,
     );
     this.inventoryItemPrice = page.locator(
-      InventoryPage.selectors.inventoryItemPrice
+      InventoryPage.selectors.inventoryItemPrice,
     );
     this.sortDropdown = page.locator(InventoryPage.selectors.sortDropdown);
   }
@@ -77,7 +78,9 @@ export class InventoryPage extends BasePage {
     await locator.click();
   }
 
-  async removeProductFromCart(productLocator: keyof typeof InventoryPage.selectors) {
+  async removeProductFromCart(
+    productLocator: keyof typeof InventoryPage.selectors,
+  ) {
     const locator = this.page.locator(InventoryPage.selectors[productLocator]);
     await locator.click();
   }
@@ -85,7 +88,9 @@ export class InventoryPage extends BasePage {
   async addAllVisibleInventoryItems() {
     for (const key of Object.keys(InventoryPage.selectors)) {
       if (key.startsWith("addToCart")) {
-        const locator = this.page.locator(InventoryPage.selectors[key as keyof typeof InventoryPage.selectors]);
+        const locator = this.page.locator(
+          InventoryPage.selectors[key as keyof typeof InventoryPage.selectors],
+        );
         if (await locator.isVisible()) {
           await locator.click();
         }
@@ -93,7 +98,9 @@ export class InventoryPage extends BasePage {
     }
   }
 
-  async sortItems(option: 'priceLowToHigh' | 'priceHighToLow' | 'nameAZ' | 'nameZA') {
+  async sortItems(
+    option: "priceLowToHigh" | "priceHighToLow" | "nameAZ" | "nameZA",
+  ) {
     const mapping = {
       priceLowToHigh: "lohi",
       priceHighToLow: "hilo",
@@ -104,14 +111,14 @@ export class InventoryPage extends BasePage {
   }
 
   async getAllPrices(): Promise<number[]> {
-    return await this.inventoryItemPrice.evaluateAll(
-      els => els.map(el => parseFloat(el.textContent.replace('$', '').trim()))
+    return await this.inventoryItemPrice.evaluateAll((els) =>
+      els.map((el) => parseFloat(el.textContent.replace("$", "").trim())),
     );
   }
 
   async getAllNames(): Promise<string[]> {
-    return await this.inventoryItemName.evaluateAll(
-      els => els.map(el => el.textContent.trim().toLowerCase())
+    return await this.inventoryItemName.evaluateAll((els) =>
+      els.map((el) => el.textContent.trim().toLowerCase()),
     );
   }
 

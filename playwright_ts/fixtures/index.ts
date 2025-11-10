@@ -1,2 +1,2 @@
-export * from './inventoryPageFixture';
-export * from './loginPageFixture';
+export * from "./inventoryPageFixture";
+export * from "./loginPageFixture";
