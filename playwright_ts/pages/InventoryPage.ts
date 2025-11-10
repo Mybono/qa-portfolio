@@ -63,11 +63,11 @@ export class InventoryPage extends BasePage {
   // Page Assertions / Checks
   // ==========================
   async checkIsOnInventoryPage() {
-    await expect(this.page).toHaveURL(new RegExp(url.inventory));
-    await expect(this.pageTitle).toHaveText("Products");
-    await expect(this.sortDropdown).toBeVisible();
-    await expect(this.shoppingCartLink).toBeVisible();
-    await expect(this.inventoryList).toBeVisible();
+    await expect.soft(this.page).toHaveURL(new RegExp(url.inventory));
+    await expect.soft(this.pageTitle).toHaveText("Products");
+    await expect.soft(this.sortDropdown).toBeVisible();
+    await expect.soft(this.shoppingCartLink).toBeVisible();
+    await expect.soft(this.inventoryList).toBeVisible();
   }
 
   // ==========================

@@ -1,4 +1,4 @@
-import { expect, Page } from "@playwright/test";
+import { Page } from "@playwright/test";
 import { BasePage, CartPage } from "../pages";
 import { User, UserRole } from "sdk/interfaces";
 import { url } from "sdk/constants";
@@ -56,7 +56,7 @@ export class CheckOutPage extends BasePage {
       await this.cartPage.checkoutBtn.click();
       await this.checkUrl(this.pageUrlStepOne);
     } catch (error) {
-      throw new Error(`[navigateToCheckoutForm]: ${error}`);
+      throw new Error(`[navigateToCheckoutForm]: Failed to navigate to checkout form ${error}`);
     }
   }
 

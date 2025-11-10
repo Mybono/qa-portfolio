@@ -18,9 +18,8 @@ export const inventoryTest = base.extend<Fixtures>({
     await use(loginPage);
   },
 
-  inventoryPage: async ({ page }, use) => {
+  inventoryPage: async ({ page, loginPage }, use) => {
     const inventoryPage = new InventoryPage(page);
-    await page.goto(url.inventory);
     await page.waitForURL(url.inventory);
     await use(inventoryPage);
   },

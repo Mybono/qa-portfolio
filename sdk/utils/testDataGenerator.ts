@@ -27,7 +27,7 @@ const NUMBERS = '0123456789'
  * A lightweight utility class mimicking core functionalities of a library like Lodash,
  * primarily focused on generating random data for testing purposes.
  */
-class LodashLite {
+class TestDataGenerator {
 
     /**
      * Generates a random string of a specified length using the defined character set.
@@ -124,4 +124,4 @@ class LodashLite {
     }
 }
 
-export const _ = new LodashLite();
+export const _ = new TestDataGenerator();
