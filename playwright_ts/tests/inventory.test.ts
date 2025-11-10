@@ -38,7 +38,7 @@ test.describe("Inventory Page Tests @regression", () => {
     cartPage,
   }) => {
     await inventoryPage.addProductToCart("addToCartBackpack");
-    await inventoryPage.removeProductFromCart("addToCartBackpack");
+    await inventoryPage.removeProductFromCart("removeBackpack");
     await expect(cartPage.cartBadge).toBeHidden();
   });
 

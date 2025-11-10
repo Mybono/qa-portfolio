@@ -5,7 +5,7 @@ export default defineConfig({
   testDir: "./tests",
 
   fullyParallel: true,
-  workers: process.env.CI ? 2 : 4,
+  workers: process.env.CI ? 2 : 6,
   retries: process.env.CI ? 2 : 0,
 
   timeout: env.TIMEOUT,
@@ -42,23 +42,13 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
       },
     },
-    // {
-    //   name: "firefox",
-    //   testMatch: /tests\/(inventory|cart|checkout)\.test\.ts/,
-    //   use: {
-    //     ...devices["Desktop Firefox"],
-    //     storageState: ".auth/user.json",
-    //   },
-    //   dependencies: ["setup"],
-    // },
-    //     {
-    //   name: "chromium",
-    //   testMatch: /tests\/(inventory|cart|checkout)\.test\.ts/,
-    //   use: {
-    //     ...devices["Desktop Chrome"],
-    //     storageState: ".auth/user.json",
-    //   },
-    //   dependencies: ["setup"],
-    // },
+      {
+      name: "Inventory-tests",
+      testMatch: /tests\/(inventory|cart|checkout)\.test\.ts/,
+      use: {
+        ...devices["Desktop Chrome"],
+      storageState: "config/user.json",
+      },
+    },
   ],
 });

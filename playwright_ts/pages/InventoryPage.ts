@@ -1,6 +1,7 @@
 import { expect, Page } from "@playwright/test";
 import { BasePage } from "../pages";
-import { url } from "sdk/constants";
+import { selectors, url } from "sdk/constants";
+import { env } from "sdk/config";
 
 export class InventoryPage extends BasePage {
   static readonly selectors = {
@@ -9,8 +10,7 @@ export class InventoryPage extends BasePage {
     addToCartBoltTShirt: '[data-test="add-to-cart-sauce-labs-bolt-t-shirt"]',
     addToCartFleeceJacket: '[data-test="add-to-cart-sauce-labs-fleece-jacket"]',
     addToCartOnesie: '[data-test="add-to-cart-sauce-labs-onesie"]',
-    addToCartRedShirt:
-      '[data-test="add-to-cart-test.allthethings()-t-shirt-(red)"]',
+    addToCartRedShirt: '[data-test="add-to-cart-test.allthethings()-t-shirt-(red)"]',
 
     removeBackpack: '[data-test="remove-sauce-labs-backpack"]',
     removeBikeLight: '[data-test="remove-sauce-labs-bike-light"]',
@@ -25,7 +25,7 @@ export class InventoryPage extends BasePage {
     cartBadge: '[data-test="shopping-cart-badge"]',
     inventoryItemName: '[data-test="inventory-item-name"]',
     inventoryItemPrice: '[data-test="inventory-item-price"]',
-    sortDropdown: 'select[data-test="product_sort_container"]',
+    sortDropdown: 'select[data-test="product-sort-container"]',
     logoutLink: '[data-test="logout-sidebar-link"]',
     burgerMenu: '[data-test="open-menu"]',
   };
@@ -39,6 +39,7 @@ export class InventoryPage extends BasePage {
   readonly inventoryItemName;
   readonly inventoryItemPrice;
   readonly sortDropdown;
+  readonly inventoryItems;
 
   constructor(page: Page) {
     super(page);
@@ -46,17 +47,21 @@ export class InventoryPage extends BasePage {
     this.pageUrl = url.inventory;
     this.pageTitle = page.locator(InventoryPage.selectors.pageTitle);
     this.inventoryList = page.locator(InventoryPage.selectors.inventoryList);
-    this.shoppingCartLink = page.locator(
-      InventoryPage.selectors.shoppingCartLink,
-    );
+    this.shoppingCartLink = page.locator(InventoryPage.selectors.shoppingCartLink);
     this.cartBadge = page.locator(InventoryPage.selectors.cartBadge);
-    this.inventoryItemName = page.locator(
-      InventoryPage.selectors.inventoryItemName,
-    );
-    this.inventoryItemPrice = page.locator(
-      InventoryPage.selectors.inventoryItemPrice,
-    );
+    this.inventoryItemName = page.locator(InventoryPage.selectors.inventoryItemName);
+    this.inventoryItemPrice = page.locator(InventoryPage.selectors.inventoryItemPrice);
     this.sortDropdown = page.locator(InventoryPage.selectors.sortDropdown);
+
+    // ✅ Исправлено: используем селекторы напрямую
+    this.inventoryItems = [
+      InventoryPage.selectors.addToCartBackpack,
+      InventoryPage.selectors.addToCartBikeLight,
+      InventoryPage.selectors.addToCartBoltTShirt,
+      InventoryPage.selectors.addToCartFleeceJacket,
+      InventoryPage.selectors.addToCartOnesie,
+      InventoryPage.selectors.addToCartRedShirt,
+    ];
   }
 
   // ==========================
@@ -73,41 +78,54 @@ export class InventoryPage extends BasePage {
   // ==========================
   // Actions
   // ==========================
-  async addProductToCart(productLocator: keyof typeof InventoryPage.selectors) {
-    const locator = this.page.locator(InventoryPage.selectors[productLocator]);
-    await locator.click();
-  }
-
-  async removeProductFromCart(
-    productLocator: keyof typeof InventoryPage.selectors,
-  ) {
-    const locator = this.page.locator(InventoryPage.selectors[productLocator]);
-    await locator.click();
-  }
-
   async addAllVisibleInventoryItems() {
-    for (const key of Object.keys(InventoryPage.selectors)) {
-      if (key.startsWith("addToCart")) {
-        const locator = this.page.locator(
-          InventoryPage.selectors[key as keyof typeof InventoryPage.selectors],
-        );
-        if (await locator.isVisible()) {
-          await locator.click();
+    try {
+      await this.checkIsOnInventoryPage();
+      for (const selector of this.inventoryItems) {
+        const item = this.page.locator(selector);
+        if (await item.isVisible()) {
+          await item.click();
         }
       }
+    } catch (error) {
+      throw new Error(`[addAllVisibleInventoryItems]: ${error}`);
     }
   }
 
-  async sortItems(
-    option: "priceLowToHigh" | "priceHighToLow" | "nameAZ" | "nameZA",
-  ) {
-    const mapping = {
-      priceLowToHigh: "lohi",
-      priceHighToLow: "hilo",
-      nameAZ: "az",
-      nameZA: "za",
-    };
-    await this.sortDropdown.selectOption(mapping[option]);
+  async addProductToCart(productLocator: keyof typeof InventoryPage.selectors) {
+    try {
+      const locator = this.page.locator(InventoryPage.selectors[productLocator]);
+      await locator.waitFor({ state: "visible", timeout: env.TIMEOUT });
+      await locator.click();
+    } catch (error) {
+      throw new Error(`[addProductToCart]: ${error}`);
+    }
+  }
+
+  async removeProductFromCart(productLocator: keyof typeof InventoryPage.selectors) {
+    try {
+      const locator = this.page.locator(InventoryPage.selectors[productLocator]);
+      await locator.waitFor({ state: "visible", timeout: env.TIMEOUT });
+      await locator.click();
+    } catch (error) {
+      throw new Error(`[removeProductFromCart]: ${error}`);
+    }
+  }
+
+  async sortItems(option: "priceLowToHigh" | "priceHighToLow" | "nameAZ" | "nameZA") {
+    try {
+      const mapping = {
+        priceLowToHigh: "lohi",
+        priceHighToLow: "hilo",
+        nameAZ: "az",
+        nameZA: "za",
+      };
+      await this.page.waitForURL(url.inventory);
+      await this.sortDropdown.waitFor({ state: "visible", timeout: env.TIMEOUT });
+      await this.sortDropdown.selectOption(mapping[option]);
+    } catch (error) {
+      throw new Error(`[sortItems]: ${error}`);
+    }
   }
 
   async getAllPrices(): Promise<number[]> {
