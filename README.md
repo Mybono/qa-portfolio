@@ -45,5 +45,5 @@ docker compose exec -w /work/playwright_ts playwright_ts npm run allure:generate
 ```
 
 docker compose exec playwright_ts sh
-npx prettier --write "playwright_ts/**/*.ts"
+npx prettier --write "**/*.ts"
 npm install

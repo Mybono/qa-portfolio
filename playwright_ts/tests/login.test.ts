@@ -1,10 +1,10 @@
-import { loginTest as test, expect } from "../fixtures";
+import { test, expect } from "@playwright/test";
 import { selectors, url } from "sdk/constants";
 import { BasePage, LoginPage } from "../pages";
 import { UserRole } from "sdk/interfaces";
 import { env } from "sdk/config";
 
-test.describe("Login Page @regression", () => {
+test.describe("Login Page @login @regression", () => {
   let loginPage: LoginPage;
   let basePage: BasePage;
 

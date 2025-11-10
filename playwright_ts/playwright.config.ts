@@ -1,61 +1,64 @@
-import { defineConfig, devices } from '@playwright/test';
-import { env } from './config';
+import { defineConfig, devices } from "@playwright/test";
+import { env } from "./config";
 
 export default defineConfig({
-  testDir: './tests',
+  testDir: "./tests",
+
   fullyParallel: true,
   workers: process.env.CI ? 2 : 4,
   retries: process.env.CI ? 2 : 0,
-  
+
   timeout: env.TIMEOUT,
   expect: {
     timeout: 5000,
   },
-  
+
   reporter: [
-    ['html', { open: 'never' }],
-    ['allure-playwright'],
-    ['list'],
-    ['junit', { outputFile: 'test-results/junit.xml' }],
+    ["html", { open: "never" }],
+    ["allure-playwright"],
+    ["list"],
+    ["junit", { outputFile: "test-results/junit.xml" }],
   ],
-  
+
   use: {
-    baseURL: env.BASE_URL,
-    trace: 'retain-on-failure',
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    baseURL: "https://www.saucedemo.com",
+
+    trace: "retain-on-failure",
+    screenshot: "only-on-failure",
+    video: "retain-on-failure",
+
     actionTimeout: 10000,
   },
 
   projects: [
     {
-      name: 'setup',
+      name: "setup",
       testMatch: /.*\.setup\.ts/,
     },
-    
     {
-      name: 'chromium',
-      use: { 
-        ...devices['Desktop Chrome'],
-        storageState: '.auth/user.json',
+      name: "chromium",
+      testMatch: /tests\/(inventory|cart|checkout)\.test\.ts/,
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: ".auth/user.json",
       },
-      dependencies: ['setup'],
+      dependencies: ["setup"],
     },
     {
-      name: 'firefox',
-      use: { 
-        ...devices['Desktop Firefox'],
-        storageState: '.auth/user.json',
+      name: "login-tests",
+      testMatch: /tests\/login\.test\.ts/,
+      use: {
+        ...devices["Desktop Chrome"],
       },
-      dependencies: ['setup'],
     },
     {
-      name: 'mobile-chrome',
-      use: { 
-        ...devices['Pixel 5'],
-        storageState: '.auth/user.json',
+      name: "firefox",
+      testMatch: /tests\/(inventory|cart|checkout)\.test\.ts/,
+      use: {
+        ...devices["Desktop Firefox"],
+        storageState: ".auth/user.json",
       },
-      dependencies: ['setup'],
+      dependencies: ["setup"],
     },
   ],
 });

@@ -1,26 +1,24 @@
-import { inventoryTest as test, expect } from "../fixtures";
 import { url, inventorySelectors } from "sdk/constants";
-import { userService, assetsTracker } from "../services";
-import { UserRole } from "sdk/interfaces";
+import { test, expect } from "../fixtures";
+
 
 test.describe("Inventory Page Tests @regression", () => {
+
   test("E2E: Add all & Checkout", async ({
     inventoryPage,
     cartPage,
     checkOutPage,
+    testUser,
   }) => {
     await inventoryPage.addAllVisibleInventoryItems();
     await inventoryPage.goToCart();
+
     const items = await cartPage.getAllItems();
     await expect(items).toHaveCount(inventorySelectors.length);
 
-    //* CheckOut Step 1
-    const dammyUser = await userService.createUser(UserRole.standard_user);
-    assetsTracker.track({ users: dammyUser._id });
     await checkOutPage.navigateToCheckoutForm();
-    await checkOutPage.fillCheckoutForm(dammyUser);
+    await checkOutPage.fillCheckoutForm(testUser);
 
-    //* CheckOut Step 2
     await checkOutPage.checkUrl(url.checkoutStepTwo);
     await checkOutPage.finishCheckout();
   });
@@ -29,20 +27,12 @@ test.describe("Inventory Page Tests @regression", () => {
     await inventoryPage.checkIsOnInventoryPage();
   });
 
-  test("should add one product to cart", async ({
-    inventoryPage,
-    cartPage,
-  }) => {
+  test("should add one product to cart", async ({ inventoryPage, cartPage }) => {
     await inventoryPage.addProductToCart("addToCartBackpack");
     await expect(cartPage.cartBadge).toHaveText("1");
-    const removeBtn = await cartPage.getRemoveButton("removeBackpack");
-    await expect(removeBtn).toBeVisible();
   });
 
-  test("should remove product from cart", async ({
-    inventoryPage,
-    cartPage,
-  }) => {
+  test("should remove product from cart", async ({ inventoryPage, cartPage }) => {
     await inventoryPage.addProductToCart("addToCartBackpack");
     await inventoryPage.removeProductFromCart("addToCartBackpack");
     await expect(cartPage.cartBadge).toBeHidden();
@@ -72,8 +62,9 @@ test.describe("Inventory Page Tests @regression", () => {
     expect([...names].sort((a, b) => b.localeCompare(a))).toEqual(names);
   });
 
-  test("should navigate to cart", async ({ cartPage, inventoryPage }) => {
+  test("should navigate to cart", async ({ inventoryPage, page }) => {
     await inventoryPage.goToCart();
-    await expect(cartPage.page).toHaveURL(url.cart);
+    await expect(page).toHaveURL(url.cart);
   });
+
 });

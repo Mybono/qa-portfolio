@@ -56,7 +56,9 @@ export class CheckOutPage extends BasePage {
       await this.cartPage.checkoutBtn.click();
       await this.checkUrl(this.pageUrlStepOne);
     } catch (error) {
-      throw new Error(`[navigateToCheckoutForm]: Failed to navigate to checkout form ${error}`);
+      throw new Error(
+        `[navigateToCheckoutForm]: Failed to navigate to checkout form: ${error}`,
+      );
     }
   }
 
