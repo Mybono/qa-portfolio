@@ -17,14 +17,13 @@ The project uses `docker compose` to orchestrate several key services:
 | Service Name | Technology | Role |
 | :--- | :--- | :--- |
 | **`mongo`** | MongoDB | Isolated database for storing and managing test data. |
-| **`sdk`** |  **TypeScript** |Shared library for Playwright TypeScript projects (playwright_ts). |
+| [sdk](https://github.com/Mybono/sdk_automation) |  **TypeScript** |Shared library for Playwright TypeScript projects (playwright_ts). |
 | **`playwright_ts`** | Playwright / **TypeScript** | Environment for running **End-to-End tests** using Node.js. |
 | **`playwright_py`** | Playwright / **Python** | Environment for running **End-to-End tests** using Pytest. |
 
 ---
 
 ## 🏃 Running the Tests
-
 The recommended method is using **Docker Compose**, which handles the build process, networking, and execution of all test suites.
 
 ### 1. Setup and Initialization (Build and Run)
