@@ -16,12 +16,10 @@ The project uses `docker compose` to orchestrate several key services:
 
 | Service Name | Technology | Role |
 | :--- | :--- | :--- |
-| [sdk](https://www.npmjs.com/package/sdk_automation?activeTab=readme) |  **TypeScript** |Shared library for Playwright TypeScript projects (playwright_ts). |
+| **[SDK](https://www.npmjs.com/package/sdk_automation?activeTab=readme)** |  **TypeScript** |Shared library for Playwright TypeScript projects (playwright_ts). |
 | **`playwright_ts`** | Playwright / **TypeScript** | Environment for running **End-to-End tests** using Node.js. |
-| **`playwright_py`** | Playwright / **Python** | Environment for running **End-to-End tests** using Pytest. |
 
 ---
-
 ## 🏃 Running the Tests
 The recommended method is using **Docker Compose**, which handles the build process, networking, and execution of all test suites.
 
