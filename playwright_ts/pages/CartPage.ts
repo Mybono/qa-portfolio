@@ -70,7 +70,9 @@ export class CartPage extends BasePage {
     >,
   ) {
     const removeLocator = (this as CartPage)[product] as Locator;
-    if (removeLocator) {await removeLocator.click();}
+    if (removeLocator) {
+      await removeLocator.click();
+    }
   }
 
   async getRemoveButton(

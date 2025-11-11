@@ -15,7 +15,11 @@ setup("authenticate", async ({ page }) => {
   try {
     const loginPage = new LoginPage(page);
     await loginPage.loginAs(UserRole.standard_user);
-    assert.strictEqual(page.url(), url.inventory, "[authenticate]: URL mismatch");
+    assert.strictEqual(
+      page.url(),
+      url.inventory,
+      "[authenticate]: URL mismatch",
+    );
     await page.context().storageState({ path: authFile });
   } catch (error) {
     throw new Error(`[authenticate]: Authentication failed: ${error}`);
