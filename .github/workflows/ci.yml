@@ -116,8 +116,7 @@ jobs:
   docker-build:
     name: 🐋 Docker Build - ${{ matrix.service }}
     runs-on: ubuntu-latest
-    needs: [code-quality-ts, code-quality-py]
-    if: always() && (needs.code-quality-ts.result == 'success' || needs.code-quality-ts.result == 'skipped') && (needs.code-quality-py.result == 'success' || needs.code-quality-py.result == 'skipped')
+    if: always() && (needs.code-quality-ts.result == 'success')
     
     strategy:
       matrix:
