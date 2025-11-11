@@ -1,6 +1,6 @@
+import { logger, url } from "@mybono/sdk_automation";
 import { test, expect } from "@playwright/test";
-import { url } from "sdk/constants";
-import { logger } from "sdk/utils";
+
 
 test("page @load performance", async ({ page }) => {
   const startTime = Date.now();
