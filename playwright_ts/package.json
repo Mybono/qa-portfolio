@@ -4,12 +4,13 @@
   "version": "1.0.0",
   "type": "commonjs",
   "dependencies": {
-    "mongodb": "6.8.0",
-    "sdk": "file:../sdk"
+    "sdk_automation": "1.0.9",
+    "allure-playwright": "^3.4.2",
+    "mongodb": "6.8.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.56.1",
     "@axe-core/playwright": "^4.11.0",
+    "@playwright/test": "^1.56.1",
     "@types/node": "^22.19.0",
     "prettier": "^3.0.0",
     "typescript": "5.6.3"

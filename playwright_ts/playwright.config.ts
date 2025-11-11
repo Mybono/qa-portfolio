@@ -1,5 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
-import { env } from "./config";
+import { url } from "sdk_automation";
 
 export default defineConfig({
   testDir: "./tests",
@@ -8,7 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 2 : 8,
   retries: process.env.CI ? 2 : 0,
 
-  timeout: env.TIMEOUT,
+  timeout: 10000,
   expect: {
     timeout: 5000,
   },
@@ -21,7 +21,7 @@ export default defineConfig({
   ],
 
   use: {
-    baseURL: env.BASE_URL,
+    baseURL: url.baseUrl,
 
     trace: "retain-on-failure",
     screenshot: "only-on-failure",

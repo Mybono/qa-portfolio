@@ -1,7 +1,7 @@
+import { BasePage, InventoryPage } from "../pages";
 import { Page, Locator } from "@playwright/test";
-import { BasePage } from "../pages";
-import { url } from "sdk/constants";
-import { InventoryPage } from "./InventoryPage";
+import { url } from "sdk_automation";
+
 
 export class CartPage extends BasePage {
   static readonly selectors = {

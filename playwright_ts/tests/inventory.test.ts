@@ -1,5 +1,6 @@
-import { url, inventorySelectors } from "sdk/constants";
+import { url, inventorySelectors } from "sdk_automation";
 import { test, expect } from "../fixtures";
+
 
 test.describe("Inventory Page Tests @regression", () => {
   test("E2E: Add all & Checkout", async ({

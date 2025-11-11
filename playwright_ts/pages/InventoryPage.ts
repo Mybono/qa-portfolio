@@ -1,7 +1,6 @@
+import { env, url } from "sdk_automation";
 import { expect, Page } from "@playwright/test";
 import { BasePage } from "../pages";
-import { selectors, url } from "sdk/constants";
-import { env } from "sdk/config";
 
 export class InventoryPage extends BasePage {
   static readonly selectors = {
