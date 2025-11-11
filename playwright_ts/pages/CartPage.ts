@@ -1,6 +1,6 @@
 import { BasePage, InventoryPage } from "../pages";
 import { Page, Locator } from "@playwright/test";
-import { url } from "@mybono/sdk_automation";
+import { url } from "sdk_automation";
 
 
 export class CartPage extends BasePage {

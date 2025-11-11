@@ -1,4 +1,4 @@
-import { _, url, User, UserRole } from "@mybono/sdk_automation";
+import { _, url, User, UserRole } from "sdk_automation";
 import { BasePage, CartPage } from "../pages";
 import { Page } from "@playwright/test";
 

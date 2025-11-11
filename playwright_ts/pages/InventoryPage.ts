@@ -1,4 +1,4 @@
-import { env, url } from "@mybono/sdk_automation";
+import { env, url } from "sdk_automation";
 import { expect, Page } from "@playwright/test";
 import { BasePage } from "../pages";
 

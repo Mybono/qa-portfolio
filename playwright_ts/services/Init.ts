@@ -1,4 +1,4 @@
-import { env, logger, AssetsTracker, DbConnection, UserService } from "@mybono/sdk_automation";
+import { env, logger, AssetsTracker, DbConnection, UserService } from "sdk_automation";
 import { Db } from "mongodb";
 
 type ServiceConstructor<T> = new (db: Db) => T;

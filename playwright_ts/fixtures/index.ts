@@ -1,5 +1,5 @@
 import { LoginPage, InventoryPage, CartPage, CheckOutPage } from "../pages";
-import { User, UserRole, url } from "@mybono/sdk_automation";
+import { User, UserRole, url } from "sdk_automation";
 import { test as base, expect } from "@playwright/test";
 import { userService, assetsTracker } from "../services";
 

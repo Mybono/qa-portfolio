@@ -1,4 +1,4 @@
-import { url, inventorySelectors } from "@mybono/sdk_automation";
+import { url, inventorySelectors } from "sdk_automation";
 import { test, expect } from "../fixtures";
 
 

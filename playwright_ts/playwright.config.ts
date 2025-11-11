@@ -1,5 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
-import { url } from "@mybono/sdk_automation";
+import { url } from "sdk_automation";
 
 export default defineConfig({
   testDir: "./tests",

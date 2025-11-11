@@ -1,4 +1,4 @@
-import { logger, url } from "@mybono/sdk_automation";
+import { logger, url } from "sdk_automation";
 import { test, expect } from "@playwright/test";
 
 
