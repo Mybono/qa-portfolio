@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-import { url } from "sdk/constants";
+import { url } from "@mybono/sdk_automation";
 
 test.describe("@accessibility Tests", () => {
   test("inventory page - WCAG 2.1 Level AA", async ({ page }) => {

@@ -1,8 +1,7 @@
-import { UserRoleType } from "sdk/interfaces";
+import { url, CREDENTIALS_MAP, UserRoleType } from "@mybono/sdk_automation";
 import { BasePage, InventoryPage } from "../pages";
 import { expect, Page } from "@playwright/test";
-import { CREDENTIALS_MAP } from "sdk/config";
-import { url } from "sdk/constants";
+
 
 export class LoginPage extends BasePage {
   readonly usernameInput;

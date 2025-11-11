@@ -1,6 +1,5 @@
 import { test as setup, expect } from "@playwright/test";
-import { UserRole } from "sdk/interfaces";
-import { url } from "sdk/constants";
+import { UserRole, url } from "@mybono/sdk_automation";
 import { LoginPage } from "../pages";
 import path from "path";
 import fs from "fs";

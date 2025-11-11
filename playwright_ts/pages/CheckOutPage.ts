@@ -1,8 +1,7 @@
-import { Page } from "@playwright/test";
+import { _, url, User, UserRole } from "@mybono/sdk_automation";
 import { BasePage, CartPage } from "../pages";
-import { User, UserRole } from "sdk/interfaces";
-import { url } from "sdk/constants";
-import { _ } from "sdk/utils";
+import { Page } from "@playwright/test";
+
 
 export class CheckOutPage extends BasePage {
   static readonly selectors = {

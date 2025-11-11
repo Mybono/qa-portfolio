@@ -5,7 +5,7 @@
   "type": "commonjs",
   "dependencies": {
     "mongodb": "6.8.0",
-    "sdk": "file:../sdk"
+    "@mybono/sdk_automation": "1.0.5"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
