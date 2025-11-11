@@ -2,7 +2,6 @@ import { url, CREDENTIALS_MAP, UserRoleType } from "sdk_automation";
 import { BasePage, InventoryPage } from "../pages";
 import { expect, Page } from "@playwright/test";
 
-
 export class LoginPage extends BasePage {
   readonly usernameInput;
   readonly passwordInput;
@@ -63,7 +62,7 @@ export class LoginPage extends BasePage {
     try {
       const burgerMenu = this.page.locator(InventoryPage.selectors.burgerMenu);
       await burgerMenu.waitFor({ state: "visible" });
-      await burgerMenu.click({ force: true });
+      await burgerMenu.click();
 
       const logoutLink = this.page.locator(InventoryPage.selectors.logoutLink);
       await logoutLink.waitFor({ state: "visible" });

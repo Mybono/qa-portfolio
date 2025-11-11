@@ -8,13 +8,23 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",              
+    "baseUrl": ".",
     "paths": {
-      "sdk": ["../sdk"],
-      "sdk/*": ["../sdk/*"],
-      "@fixtures/*": ["fixtures/*"],
-      "@pages/*": ["pages/*"],
-      "@tests/*": ["tests/*"]
+      "sdk": [
+        "../sdk"
+      ],
+      "sdk/*": [
+        "../sdk/*"
+      ],
+      "@fixtures/*": [
+        "fixtures/*"
+      ],
+      "@pages/*": [
+        "pages/*"
+      ],
+      "@tests/*": [
+        "tests/*"
+      ]
     },
     "types": [
       "@playwright/test",
@@ -27,6 +37,8 @@
     "tests/**/*.ts",
     "config/**/*.ts",
     "constants/**/*.ts",
-    "interfaces/collections.ts"
-, "tests/auth.setup.ts"  ]
+    "interfaces/collections.ts",
+    "tests/auth.setup.ts",
+    "playwright.config.ts"
+  ]
 }

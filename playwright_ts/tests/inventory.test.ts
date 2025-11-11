@@ -1,7 +1,6 @@
 import { url, inventorySelectors } from "sdk_automation";
 import { test, expect } from "../fixtures";
 
-
 test.describe("Inventory Page Tests @regression", () => {
   test("E2E: Add all & Checkout", async ({
     inventoryPage,
@@ -24,6 +23,7 @@ test.describe("Inventory Page Tests @regression", () => {
 
   test("should display all main UI elements", async ({ inventoryPage }) => {
     await inventoryPage.checkIsOnInventoryPage();
+    await expect.soft(inventoryPage.inventoryList).toBeVisible();
   });
 
   test("should add one product to cart", async ({

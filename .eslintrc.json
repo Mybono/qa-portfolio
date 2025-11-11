@@ -4,12 +4,9 @@
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module",
-    "project": "./tsconfig.json"
+    "project": ["./playwright_ts/tsconfig.json", "./sdk/tsconfig.json"]
   },
-  "plugins": [
-    "@typescript-eslint",
-    "playwright"
-  ],
+  "plugins": ["@typescript-eslint", "playwright"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -20,7 +17,6 @@
     "es2020": true
   },
   "rules": {
-    // General JavaScript/TypeScript rules
     "no-console": "warn",
     "no-debugger": "error",
     "no-unused-vars": "off",
@@ -35,14 +31,10 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/no-non-null-assertion": "warn",
-    
-    // Code quality
     "prefer-const": "error",
     "no-var": "error",
     "eqeqeq": ["error", "always"],
     "curly": ["error", "all"],
-    
-    // Best practices for testing
     "playwright/no-skipped-test": "warn",
     "playwright/no-focused-test": "error",
     "playwright/valid-expect": "error",
@@ -52,19 +44,36 @@
   },
   "overrides": [
     {
-      "files": ["*.test.ts", "*.spec.ts"],
+      "files": ["**/*.test.ts", "**/*.spec.ts"],
       "rules": {
         "no-console": "off",
         "@typescript-eslint/no-explicit-any": "off"
+      }
+    },
+    {
+      "files": ["playwright_ts/**/*.ts"],
+      "parserOptions": {
+        "project": "./playwright_ts/tsconfig.json"
       }
     }
   ],
   "ignorePatterns": [
     "node_modules/",
+    "**/node_modules/",
     "dist/",
+    "**/dist/",
     "coverage/",
+    "**/coverage/",
     "playwright-report/",
+    "**/playwright-report/",
     "test-results/",
-    "*.js"
+    "**/test-results/",
+    "allure-results/",
+    "allure-report/",
+    "*.js",
+    "playwright_py/**/*",
+    "mongo/**/*",
+    ".git/",
+    "*.config.js"
   ]
 }
