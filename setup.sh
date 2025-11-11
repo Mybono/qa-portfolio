@@ -88,8 +88,6 @@ dist/
 **/dist/
 playwright-report/
 test-results/
-playwright_py/**/*
-*.py
 mongo/**/*
 *.config.js
 EOF
@@ -108,25 +106,6 @@ if [ $? -ne 0 ]; then
 fi
 cd ..
 echo "✅ TypeScript dependencies installed"
-echo ""
-
-# Check Python (optional)
-echo "🐍 Checking Python..."
-if command -v python3 &> /dev/null; then
-    PYTHON_VERSION=$(python3 --version)
-    echo "✅ Python detected: $PYTHON_VERSION"
-    
-    echo "📦 Installing Python dependencies (if available)..."
-    if [ -f "playwright_py/requirements.txt" ]; then
-        cd playwright_py
-        pip3 install -r requirements.txt
-        pip3 install flake8 black pylint
-        cd ..
-        echo "✅ Python dependencies installed"
-    fi
-else
-    echo "⚠️  Python not found. Skipping Python setup."
-fi
 echo ""
 
 # Validate installation
