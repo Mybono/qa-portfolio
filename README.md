@@ -24,6 +24,7 @@ The most efficient way to run the End-to-End tests and automatically generate th
 ```powershell
 docker compose up --build -d; docker compose exec -w /work/playwright_ts playwright_ts sh -c "npm install && npx playwright test --reporter=html"
 ```
+
 💡 Tip: To open the HTML report after tests, you can run:
 
 ```powershell
@@ -56,7 +57,7 @@ The project uses `docker compose` to orchestrate several key services:
 
 ---
 
-## CI/CD Workflow Overview
+## 🔁 CI/CD Workflow Overview
 Our repository uses **GitHub Actions** to enforce quality and safety checks on all pull requests.
 
 ### 🔍 PR Quality Checks
