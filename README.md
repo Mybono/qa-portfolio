@@ -77,3 +77,9 @@ For every PR (`opened`, `synchronize`, `reopened`):
   - Security audit has been run
   - License compatibility is verified
   - Bundle size impact is acceptable  
+
+[Workflow Example](https://github.com/Mybono/qa-portfolio/actions/runs/19306260482)
+<p align="center">
+  <img src="./assets/pr_ci_cd.png" alt="CI/CD Workflow Example" style="display: block; margin: 0 auto; max-width: 100%;">
+  <br>
+</p>
