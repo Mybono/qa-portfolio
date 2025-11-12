@@ -4,10 +4,15 @@
 [![Playwright](https://img.shields.io/badge/Playwright-42CC96?style=for-the-badge&logo=playwright&logoColor=white)](https://playwright.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Docker](https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Star on GitHub](https://img.shields.io/github/stars/mybono/qa-portfolio?style=for-the-badge)](https://github.com/mybono/qa-portfolio/stargazers)
 
 [![CI Status](https://github.com/Mybono/qa-portfolio/actions/workflows/pr-checks.yml/badge.svg)](https://github.com/Mybono/qa-portfolio/actions/workflows/pr-checks.yml)
 
 This repository presents a unified automated testing platform. We use **Docker Compose** to fully isolate the testing environments, ensuring stable and reproducible test runs for various components (E2E, API, and Integration).
+
+> 💫 If you like this project, please consider giving it a star!  
+> It helps others find it and keeps me motivated 
+
 
 ## Requirements
 
