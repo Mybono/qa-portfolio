@@ -38,17 +38,5 @@ services:
       - ./playwright_ts:/work/playwright_ts
     command: ["sleep", "infinity"]  
 
-  # 🐍 Playwright Tests (Python)
-  playwright_py:
-    build:
-      context: ./playwright_py 
-      dockerfile: ./Dockerfile
-    <<: *common-env
-    command: ["sleep", "infinity"]
-    shm_size: 1gb
-    container_name: playwright_py
-    volumes:
-      - ./playwright_py:/work/playwright_py
-
 volumes:
   mongo_data:

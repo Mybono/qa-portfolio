@@ -10,8 +10,6 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "sdk": ["../sdk"],
-      "sdk/*": ["../sdk/*"],
       "@fixtures/*": ["fixtures/*"],
       "@pages/*": ["pages/*"],
       "@tests/*": ["tests/*"]
