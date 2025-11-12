@@ -1,0 +1,129 @@
+name: 🔍 PR Quality Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  # ============================================
+  # PR Validation
+  # ============================================
+  pr-validation:
+    name: ✅ PR Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 📏 Check PR size
+        run: |
+          FILES_CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | wc -l)
+          LINES_CHANGED=$(git diff --stat origin/${{ github.base_ref }}...HEAD | tail -1 | awk '{print $4+$6}')
+          
+          echo "Files changed: $FILES_CHANGED"
+          echo "Lines changed: $LINES_CHANGED"
+          
+          if [ $FILES_CHANGED -gt 50 ]; then
+            echo "⚠️ Warning: PR changes more than 50 files"
+          fi
+          
+          if [ $LINES_CHANGED -gt 1000 ]; then
+            echo "⚠️ Warning: PR changes more than 1000 lines"
+          fi
+
+      - name: 🏷️ Check PR title
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          
+          # Check for conventional commit format
+          if ! echo "$PR_TITLE" | grep -qE '^(feat|fix|docs|style|refactor|test|chore|perf)(\(.+\))?: .+'; then
+            echo "⚠️ PR title doesn't follow conventional commits format"
+            echo "Expected format: type(scope): description"
+            echo "Types: feat, fix, docs, style, refactor, test, chore, perf"
+          else
+            echo "✅ PR title follows conventional commits format"
+          fi
+
+      - name: 📝 Check PR description
+        run: |
+          PR_BODY="${{ github.event.pull_request.body }}"
+          
+          if [ -z "$PR_BODY" ] || [ ${#PR_BODY} -lt 20 ]; then
+            echo "⚠️ PR description is too short or empty"
+            exit 1
+          else
+            echo "✅ PR has adequate description"
+          fi
+
+  # ============================================
+  # Code Review Automation
+  # ============================================
+  auto-review:
+    name: 🤖 Automated Code Review
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 📊 Generate PR metrics
+        run: |
+          echo "## 📊 PR Metrics" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Files changed: $(git diff --name-only origin/${{ github.base_ref }}...HEAD | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo "- Lines added: $(git diff --stat origin/${{ github.base_ref }}...HEAD | tail -1 | awk '{print $4}')" >> $GITHUB_STEP_SUMMARY
+          echo "- Lines deleted: $(git diff --stat origin/${{ github.base_ref }}...HEAD | tail -1 | awk '{print $6}')" >> $GITHUB_STEP_SUMMARY
+          echo "- Commits: $(git rev-list --count origin/${{ github.base_ref }}..HEAD)" >> $GITHUB_STEP_SUMMARY
+
+      - name: 🔍 Code Validation
+        run: |
+          echo "Running code quality checks..."
+          npm ci
+          npm run validate
+
+  # ============================================
+  # Dependency Check
+  # ============================================
+  dependency-check:
+    name: 📦 Dependency Changes
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔍 Check for dependency changes
+        run: |
+          if git diff origin/${{ github.base_ref }}...HEAD --name-only | grep -q 'package.*\.json'; then
+            echo "## 📦 Dependency Changes Detected" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ This PR modifies dependencies. Please ensure:" >> $GITHUB_STEP_SUMMARY
+            echo "1. Security audit has been run" >> $GITHUB_STEP_SUMMARY
+            echo "2. License compatibility is verified" >> $GITHUB_STEP_SUMMARY
+            echo "3. Bundle size impact is acceptable" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+  # ============================================
+  # Auto Merge if author is Mybono
+  # ============================================
+  auto-merge:
+    name: 🚀 Auto Merge PR
+    runs-on: ubuntu-latest
+    needs: [pr-validation, auto-review, dependency-check]
+    if: github.actor == 'Mybono'
+    
+    steps:
+      - name: 📥 Checkout PR
+        uses: actions/checkout@v4
+
+      - name: 🤖 Auto-merge PR
+        uses: pascalgn/automerge-action@v0.14.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

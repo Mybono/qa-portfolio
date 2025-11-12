@@ -1,4 +1,5 @@
-import { test as setup, expect } from "@playwright/test";
+import { test as setup } from "@playwright/test";
+import assert from "assert";
 import { UserRole, url } from "sdk_automation";
 import { LoginPage } from "../pages";
 import path from "path";
@@ -14,7 +15,11 @@ setup("authenticate", async ({ page }) => {
   try {
     const loginPage = new LoginPage(page);
     await loginPage.loginAs(UserRole.standard_user);
-    await expect(page).toHaveURL(url.inventory);
+    assert.strictEqual(
+      page.url(),
+      url.inventory,
+      "[authenticate]: URL mismatch",
+    );
     await page.context().storageState({ path: authFile });
   } catch (error) {
     throw new Error(`[authenticate]: Authentication failed: ${error}`);

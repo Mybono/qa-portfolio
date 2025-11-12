@@ -2,7 +2,6 @@ import { _, url, User, UserRole } from "sdk_automation";
 import { BasePage, CartPage } from "../pages";
 import { Page } from "@playwright/test";
 
-
 export class CheckOutPage extends BasePage {
   static readonly selectors = {
     firstNameInput: '[data-test="firstName"]',

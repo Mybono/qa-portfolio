@@ -1,0 +1,54 @@
+{
+  "name": "qa-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "QA Portfolio - Multi-framework Automated Testing Platform",
+  "workspaces": [
+    "playwright_ts",
+    "playwright_py",
+    "sdk"
+  ],
+  "scripts": {
+    "install:all": "npm install",
+    "install:ts": "cd playwright_ts && npm install",
+    "validate": "npm run lint && npm run format",
+    "lint": "eslint . --ext .ts,.js --fix",
+    "format": "prettier --write '**/*.{ts,js,json,md}'"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "eslint": "^9.39.1",
+    "@typescript-eslint/eslint-plugin": "^8.46.4",
+    "@typescript-eslint/parser": "^8.46.4",
+    "eslint-plugin-playwright": "^1.5.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "keywords": [
+    "qa",
+    "automation",
+    "testing",
+    "playwright",
+    "typescript",
+    "python",
+    "e2e",
+    "integration-tests",
+    "multi-framework"
+  ],
+  "author": "Artur",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/qa-portfolio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/qa-portfolio/issues"
+  },
+  "homepage": "https://github.com/yourusername/qa-portfolio#readme"
+}

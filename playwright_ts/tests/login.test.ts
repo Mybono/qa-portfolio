@@ -2,7 +2,6 @@ import { env, UserRole, selectors, url } from "sdk_automation";
 import { test, expect } from "@playwright/test";
 import { BasePage, LoginPage } from "../pages";
 
-
 test.describe("Login Page @login @regression", () => {
   let loginPage: LoginPage;
   let basePage: BasePage;

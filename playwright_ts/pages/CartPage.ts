@@ -2,7 +2,6 @@ import { BasePage, InventoryPage } from "../pages";
 import { Page, Locator } from "@playwright/test";
 import { url } from "sdk_automation";
 
-
 export class CartPage extends BasePage {
   static readonly selectors = {
     shoppingCartLink: '[data-test="shopping-cart-link"]',
@@ -70,8 +69,10 @@ export class CartPage extends BasePage {
       | "removeRedShirt"
     >,
   ) {
-    const removeLocator = (this as any)[product] as Locator;
-    if (removeLocator) await removeLocator.click();
+    const removeLocator = (this as CartPage)[product] as Locator;
+    if (removeLocator) {
+      await removeLocator.click();
+    }
   }
 
   async getRemoveButton(
