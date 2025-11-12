@@ -2,7 +2,7 @@
   "name": "qa-portfolio",
   "version": "1.0.0",
   "private": true,
-  "description": "QA Portfolio - Multi-framework Automated Testing Platform",
+  "description": "Multi-framework Automated Testing Platform",
   "workspaces": [
     "playwright_ts",
     "playwright_py",
