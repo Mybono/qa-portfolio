@@ -1,8 +1,4 @@
 # QA Portfolio – Automated Testing Platform 🚀
-![License](https://img.shields.io/npm/l/qa-portfolio?color=blue)
-![Build](https://img.shields.io/github/actions/workflow/status/Mybono/qa-portfolio/publish.yml?branch=main&label=CI&color=blue)
-![Top language](https://img.shields.io/github/languages/top/Mybono/qa-portfolio?color=blue)
-
 
 This repository presents a unified automated testing platform. We use **Docker Compose** to fully isolate the testing environments, ensuring stable and reproducible test runs for various components (E2E, API, and Integration).
 
