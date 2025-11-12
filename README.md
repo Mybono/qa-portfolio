@@ -1,4 +1,8 @@
 # QA Portfolio – Automated Testing Platform 🚀
+![License](https://img.shields.io/npm/l/qa-portfolio?color=blue)
+![Build](https://img.shields.io/github/actions/workflow/status/Mybono/qa-portfolio/publish.yml?branch=main&label=CI&color=blue)
+![Top language](https://img.shields.io/github/languages/top/Mybono/qa-portfolio?color=blue)
+
 
 This repository presents a unified automated testing platform. We use **Docker Compose** to fully isolate the testing environments, ensuring stable and reproducible test runs for various components (E2E, API, and Integration).
 
@@ -70,3 +74,25 @@ start ./playwright_ts/playwright-report/index.html
 ```powershell
 docker compose exec playwright_ts sh
 ```
+
+
+## CI/CD Workflow Overview
+Our repository uses **GitHub Actions** to enforce quality and safety checks on all pull requests.
+
+### 🔍 PR Quality Checks
+For every PR (`opened`, `synchronize`, `reopened`):
+
+#### 1. PR Validation
+- Checks PR size (files/lines changed)  
+- Validates PR title against **conventional commits**  
+- Ensures PR description is adequate  
+
+#### 2. Automated Code Review
+- Runs code quality checks: **linting (ESLint, Prettier)**  
+
+#### 3. Dependency Check
+- Detects changes to `package.json`  
+- Ensures:
+  - Security audit has been run
+  - License compatibility is verified
+  - Bundle size impact is acceptable  
