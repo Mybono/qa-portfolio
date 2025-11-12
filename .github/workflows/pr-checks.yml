@@ -79,12 +79,7 @@ jobs:
           if git diff origin/${{ github.base_ref }}...HEAD -- '*.ts' | grep -q 'console\.log'; then
             echo "⚠️ Warning: Found console.log statements"
           fi
-          
-          # Check for TODO comments
-          if git diff origin/${{ github.base_ref }}...HEAD | grep -q 'TODO'; then
-            echo "⚠️ Warning: Found TODO comments"
-          fi
-          
+        
           # Check for debugger statements
           if git diff origin/${{ github.base_ref }}...HEAD | grep -q 'debugger'; then
             echo "❌ Error: Found debugger statements"
@@ -101,6 +96,12 @@ jobs:
           echo "- Lines added: $(git diff --stat origin/${{ github.base_ref }}...HEAD | tail -1 | awk '{print $4}')" >> $GITHUB_STEP_SUMMARY
           echo "- Lines deleted: $(git diff --stat origin/${{ github.base_ref }}...HEAD | tail -1 | awk '{print $6}')" >> $GITHUB_STEP_SUMMARY
           echo "- Commits: $(git rev-list --count origin/${{ github.base_ref }}..HEAD)" >> $GITHUB_STEP_SUMMARY
+
+      - name: 🔍 Code Validation
+        run: |
+          echo "Running code quality checks..."
+          npm ci
+          npm run validate
 
   # ============================================
   # Dependency Check
@@ -125,3 +126,34 @@ jobs:
             echo "2. License compatibility is verified" >> $GITHUB_STEP_SUMMARY
             echo "3. Bundle size impact is acceptable" >> $GITHUB_STEP_SUMMARY
           fi
+
+  # ============================================
+  # Test Coverage Check
+  # ============================================
+  coverage-check:
+    name: 📈 Coverage Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: playwright_ts/package-lock.json
+
+      - name: 📦 Install dependencies
+        working-directory: ./playwright_ts
+        run: npm ci
+
+      - name: 📊 Check test coverage
+        working-directory: ./playwright_ts
+        run: |
+          # Placeholder for coverage check
+          echo "Running coverage analysis..."
+          echo "## 📈 Test Coverage" >> $GITHUB_STEP_SUMMARY
+          echo "Coverage report will appear here" >> $GITHUB_STEP_SUMMARY
+
