@@ -33,29 +33,10 @@ From the root of the repository (`qa-portfolio`):
 ### Starting the Project
 
 ☕ **Grab a coffee!** Building and setting up the containers might take a few minutes.
-
-```powershell
-docker compose up --build -d
-```
-
 Run Playwright Tests (TypeScript)
 
-1. Start an interactive shell in the container:
-
 ```powershell
-docker compose exec playwright_ts sh
-```
-
-2. Install dependencies (if not already installed):
-
-```powershell
-npm install
-```
-
-3. Run all tests:
-
-```powershell
-docker compose exec -w /work/playwright_ts playwright_ts npx playwright test
+docker compose up --build -d; docker compose exec -w /work/playwright_ts playwright_ts sh -c "npm install && npx playwright test --reporter=html"
 ```
 
 💡 Tip: To open the HTML report after tests, you can run:
@@ -63,14 +44,12 @@ docker compose exec -w /work/playwright_ts playwright_ts npx playwright test
 ```powershell
 # macOS
 open ./playwright_ts/playwright-report/index.html
-# Windows
-start ./playwright_ts/playwright-report/index.html
 ```
 
 ```powershell
-docker compose exec playwright_ts sh
+# Windows
+start ./playwright_ts/playwright-report/index.html
 ```
-
 
 ## CI/CD Workflow Overview
 Our repository uses **GitHub Actions** to enforce quality and safety checks on all pull requests.
