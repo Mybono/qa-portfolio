@@ -1,4 +1,11 @@
 # QA Portfolio – Automated Testing Platform 🚀
+### 🛠️ Tech Stack & Status
+
+[![Playwright](https://img.shields.io/badge/Playwright-42CC96?style=for-the-badge&logo=playwright&logoColor=white)](https://playwright.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Docker](https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+
+[![CI Status](https://github.com/Mybono/qa-portfolio/actions/workflows/pr-checks.yml/badge.svg)](https://github.com/Mybono/qa-portfolio/actions/workflows/pr-checks.yml)
 
 This repository presents a unified automated testing platform. We use **Docker Compose** to fully isolate the testing environments, ensuring stable and reproducible test runs for various components (E2E, API, and Integration).
 
@@ -9,32 +16,11 @@ This repository presents a unified automated testing platform. We use **Docker C
 
 ---
 
-## 🏗️ Core Architecture (Docker Compose)
+## 🚀 Quick Start: Run All Tests (Recommended)
 
-The project uses `docker compose` to orchestrate several key services:
+The most efficient way to run the End-to-End tests and automatically generate the HTML report is via a single command. This command handles the container build, dependency installation, test execution, and report opening.
 
-| Service Name                                                             | Technology                  | Role                                                               |
-| :----------------------------------------------------------------------- | :-------------------------- | :----------------------------------------------------------------- |
-| **[SDK](https://www.npmjs.com/package/sdk_automation?activeTab=readme)** | **TypeScript**              | Shared library for Playwright TypeScript projects (playwright_ts). |
-| **`playwright_ts`**                                                      | Playwright / **TypeScript** | Environment for running **End-to-End tests** using Node.js.        |
-
----
-
-## 🏃 Running the Tests
-
-The recommended method is using **Docker Compose**, which handles the build process, networking, and execution of all test suites.
-
-### 1. Setup and Initialization (Build and Run)
-
-Build all project images (TypeScript and Python) and run the necessary services (Mongo, Test Runners) in detached mode (`-d`). This command also handles the MongoDB initialization.
-
-From the root of the repository (`qa-portfolio`):
-
-### Starting the Project
-
-☕ **Grab a coffee!** Building and setting up the containers might take a few minutes.
-Run Playwright Tests (TypeScript)
-
+**Prerequisite:** Ensure Docker Desktop is running.
 ```powershell
 docker compose up --build -d; docker compose exec -w /work/playwright_ts playwright_ts sh -c "npm install && npx playwright test --reporter=html"
 ```
@@ -51,7 +37,27 @@ open ./playwright_ts/playwright-report/index.html
 start ./playwright_ts/playwright-report/index.html
 ```
 
-## CI/CD Workflow Overview
+## 🧹 Cleaning Up Resources
+
+To stop and remove all containers, networks, and volumes created by `docker compose` after the tests are complete and free up system resources:
+
+```bash
+docker compose down
+```
+
+
+## 🏗️ Core Architecture (Docker Compose)
+
+The project uses `docker compose` to orchestrate several key services:
+
+| Service Name                                                             | Technology                  | Role                                                               |
+| :----------------------------------------------------------------------- | :-------------------------- | :----------------------------------------------------------------- |
+| **[SDK](https://www.npmjs.com/package/sdk_automation?activeTab=readme)** | **TypeScript**              | Shared library for Playwright TypeScript projects (playwright_ts). |
+| **`playwright_ts`**                                                      | Playwright / **TypeScript** | Environment for running **End-to-End tests** using Node.js.        |
+
+---
+
+## 🔁 CI/CD Workflow Overview
 Our repository uses **GitHub Actions** to enforce quality and safety checks on all pull requests.
 
 ### 🔍 PR Quality Checks
