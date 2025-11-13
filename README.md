@@ -42,8 +42,15 @@ open ./playwright_ts/playwright-report/index.html
 start ./playwright_ts/playwright-report/index.html
 ```
 
-## 🧹 Cleaning Up Resources
+## 🐳 Run from Docker Hub
+You can run the **full Playwright + Docker + Allure CI/CD pipeline** directly from Docker Hub —  
+no cloning, no setup, just one command 🚀
 
+```bash
+docker run --rm -it mybono/qa-portfolio:latest
+```
+
+## 🧹 Cleaning Up Resources
 To stop and remove all containers, networks, and volumes created by `docker compose` after the tests are complete and free up system resources:
 
 ```bash
