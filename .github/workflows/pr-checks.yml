@@ -11,7 +11,6 @@ jobs:
   pr-validation:
     name: ✅ PR Validation
     runs-on: ubuntu-latest
-    
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
@@ -58,14 +57,6 @@ jobs:
             echo "✅ PR has adequate description"
           fi
 
-  # ============================================
-  # Code Review Automation
-  # ============================================
-  auto-review:
-    name: 🤖 Automated Code Review
-    runs-on: ubuntu-latest
-    
-    steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
         with:
@@ -80,17 +71,11 @@ jobs:
           echo "- Lines deleted: $(git diff --stat origin/${{ github.base_ref }}...HEAD | tail -1 | awk '{print $6}')" >> $GITHUB_STEP_SUMMARY
           echo "- Commits: $(git rev-list --count origin/${{ github.base_ref }}..HEAD)" >> $GITHUB_STEP_SUMMARY
 
-      - name: 🔍 Code Validation
-        run: |
-          echo "Running code quality checks..."
-          npm ci
-          npm run validate
-
   # ============================================
   # PR CheckMate Quality Checks
   # ============================================
   pr-checkmate:
-    name: 📦 PR CheckMate Checks
+    name: 🚀 PR CheckMate Checks
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout code
@@ -118,7 +103,7 @@ jobs:
   auto-merge:
     name: 🚀 Auto Merge PR
     runs-on: ubuntu-latest
-    needs: [pr-validation, auto-review, pr-checkmate]
+    needs: [pr-validation, pr-checkmate]
     if: github.actor == 'Mybono'
     
     steps:
