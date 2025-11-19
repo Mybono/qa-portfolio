@@ -104,7 +104,7 @@ jobs:
           node-version: 20
 
       - name: 📦 Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: 🔍 Run PR CheckMate
         run: node ./node_modules/.bin/pr-checkmate all

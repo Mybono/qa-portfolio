@@ -17,15 +17,15 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
-    "eslint": "^9.39.1",
     "@typescript-eslint/eslint-plugin": "^8.46.4",
     "@typescript-eslint/parser": "^8.46.4",
-    "eslint-plugin-playwright": "^1.5.0",
+    "eslint": "^9.39.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-playwright": "^1.5.0",
+    "pr-checkmate": "^1.0.1",
     "prettier": "^3.0.0",
-    "typescript": "^5.6.3",
-    "pr-checkmate": "^1.0.1"
+    "typescript": "^5.6.3"
   },
   "engines": {
     "node": ">=18.0.0",
