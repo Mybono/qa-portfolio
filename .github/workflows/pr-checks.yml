@@ -107,7 +107,7 @@ jobs:
         run: npm ci
 
       - name: 🔍 Run PR CheckMate
-        run: npx pr-checkmate all || true
+        run: npx pr-checkmate all
 
   # ============================================
   # Auto Merge if author is Mybono
