@@ -43,47 +43,33 @@ jobs:
               - 'sdk/**'
 
   # ============================================
-  # 2. Code Quality - TypeScript
+  # 2 PR CheckMate Quality Checks
   # ============================================
-  code-quality-ts:
-    name: 📋 TypeScript Code Quality
+  pr-checkmate:
+    name: ✅ PR CheckMate
     runs-on: ubuntu-latest
-    needs: detect-changes
-    if: needs.detect-changes.outputs.typescript == 'true' || github.event_name == 'workflow_dispatch'
-    
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
-
-      - name: 🟢 Setup Node.js
+        with:
+          fetch-depth: 0
+        
+      - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: 📦 Install dependencies
+          node-version: 20
+        
+      - name: 📦 Install project dependencies
         run: npm ci
-
-      - name: 🔍 Run ESLint (TypeScript)
-        run: npm run lint:ts
-        continue-on-error: false
-
-      - name: 🎨 Check code formatting (Prettier)
-        run: npm run format:check
-
-      - name: 📊 TypeScript type checking
-        run: npm run type-check:ts
-
-      - name: 📈 Generate quality report
-        if: always()
-        run: |
-          echo "## 📊 TypeScript Code Quality Report" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ ESLint: Passed" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Prettier: Passed" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ TypeScript: Passed" >> $GITHUB_STEP_SUMMARY
+      
+      - name: 📦 Install PR CheckMate globally
+        run: npm install -g pr-checkmate@latest
+        
+      - name: 🔍 Run PR CheckMate
+        run: pr-checkmate all
 
   # ============================================
-  # 4. Security Scanning
+  # 3. Security Scanning
   # ============================================
   security-scan:
     name: 🔒 Security Audit
@@ -111,11 +97,12 @@ jobs:
           head: HEAD
 
   # ============================================
-  # 5. Docker Build & Validation
+  # 4. Docker Build & Validation
   # ============================================
   docker-build:
     name: 🐋 Docker Build - ${{ matrix.service }}
     runs-on: ubuntu-latest
+    needs: [pr-checkmate, detect-changes, security-scan]
     if: always() && (needs.code-quality-ts.result == 'success')
     
     strategy:
