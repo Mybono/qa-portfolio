@@ -103,7 +103,7 @@ jobs:
   update-changelog:
     name: 📝 Update Changelog
     runs-on: ubuntu-latest
-    needs: [pr-checkmate]
+    needs: [pr-checkmate, pr-validation]
     steps:
       - name: 📥 Checkout PR
         uses: actions/checkout@v4
