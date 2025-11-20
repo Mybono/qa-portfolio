@@ -102,7 +102,7 @@ Our repository uses **GitHub Actions** to enforce quality and safety checks on a
 
 ---
 
-[Workflow Example](https://github.com/Mybono/qa-portfolio/actions/runs/19546669700)
+[Workflow Example](./assets/pr_pipeline.png)
 
 <p align="center">
   <img src="./assets/pr_ci_cd.png" alt="CI/CD Workflow Example" style="display: block; margin: 0 auto; max-width: 100%;">
