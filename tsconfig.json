@@ -4,7 +4,7 @@
     "module": "NodeNext",
     "outDir": "dist",
     "strict": true,
-    "rootDir": "src",
+    "rootDir": "playwright_ts",
     "moduleResolution": "NodeNext",
     "esModuleInterop": true,
     "resolveJsonModule": true,
@@ -15,7 +15,7 @@
     ]
   },
   "include": [
-    "src/**/*.ts"
+    "playwright_ts/**/*.ts"
   ],
   "exclude": [
     "node_modules",
