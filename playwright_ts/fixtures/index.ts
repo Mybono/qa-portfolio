@@ -1,7 +1,7 @@
-import { LoginPage, InventoryPage, CartPage, CheckOutPage } from "../pages";
-import { User, UserRole, url } from "sdk_automation";
-import { test as base, expect } from "@playwright/test";
-import { userService, assetsTracker } from "../services";
+import { LoginPage, InventoryPage, CartPage, CheckOutPage } from '../pages';
+import { User, UserRole, url } from 'sdk_automation';
+import { test as base, expect } from '@playwright/test';
+import { userService, assetsTracker } from '../services';
 
 type PageFixtures = {
   loginPage: LoginPage;
@@ -48,7 +48,7 @@ export const test = base.extend<PageFixtures & DataFixtures>({
 
   testUser: async ({}, use) => {
     const user = await userService.createUser(UserRole.standard_user);
-    assetsTracker.track({ users: user._id });
+    await assetsTracker.track({ users: user._id });
     await use(user);
   },
 });

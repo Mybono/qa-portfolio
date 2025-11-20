@@ -1,6 +1,6 @@
-import { _, url, User, UserRole } from "sdk_automation";
-import { BasePage, CartPage } from "../pages";
-import { Page } from "@playwright/test";
+import { _, url, User, UserRole } from 'sdk_automation';
+import { BasePage, CartPage } from '../pages';
+import { Page } from '@playwright/test';
 
 export class CheckOutPage extends BasePage {
   static readonly selectors = {
@@ -11,7 +11,7 @@ export class CheckOutPage extends BasePage {
     continueButton: '[data-test="continue"]',
     cancelButton: '[data-test="cancel"]',
     pageTitle: '[data-test="title"]',
-    checkoutForm: ".checkout_info",
+    checkoutForm: '.checkout_info',
     finishButton: '[data-test="finish"]',
   };
 
@@ -34,9 +34,7 @@ export class CheckOutPage extends BasePage {
     super(page);
     this.page = page;
     this.cartPage = new CartPage(page);
-    this.backToProductsBtn = page.locator(
-      CheckOutPage.selectors.backToProductsBtn,
-    );
+    this.backToProductsBtn = page.locator(CheckOutPage.selectors.backToProductsBtn);
     this.firstNameInput = page.locator(CheckOutPage.selectors.firstNameInput);
     this.lastNameInput = page.locator(CheckOutPage.selectors.lastNameInput);
     this.postalCodeInput = page.locator(CheckOutPage.selectors.postalCodeInput);
@@ -50,23 +48,21 @@ export class CheckOutPage extends BasePage {
   async navigateToCheckoutForm(): Promise<void> {
     try {
       await this.checkUrl(this.cartPage.pageUrl);
-      await this.cartPage.checkoutBtn.waitFor({ state: "visible" });
+      await this.cartPage.checkoutBtn.waitFor({ state: 'visible' });
       await this.cartPage.checkoutBtn.click();
       await this.checkUrl(this.pageUrlStepOne);
     } catch (error) {
-      throw new Error(
-        `[navigateToCheckoutForm]: Failed to navigate to checkout form: ${error}`,
-      );
+      throw new Error(`[navigateToCheckoutForm]: Failed to navigate to checkout form: ${error}`);
     }
   }
 
-  async fillCheckoutForm(userData?: User) {
+  async fillCheckoutForm(userData?: User): Promise<void> {
     try {
       const data = userData ??
         _.getRandomUser?.(UserRole.standard_user) ?? {
-          firstName: "John",
-          lastName: "Doe",
-          postalCode: "12345",
+          firstName: 'John',
+          lastName: 'Doe',
+          postalCode: '12345',
         };
 
       await this.firstNameInput.fill(data.firstName);
@@ -79,7 +75,7 @@ export class CheckOutPage extends BasePage {
     }
   }
 
-  async finishCheckout() {
+  async finishCheckout(): Promise<void> {
     await this.finishButton.click();
     await this.page.waitForURL(url.checkoutComplete);
   }

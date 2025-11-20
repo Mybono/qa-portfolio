@@ -1,6 +1,6 @@
-import { url, CREDENTIALS_MAP, UserRoleType } from "sdk_automation";
-import { BasePage, InventoryPage } from "../pages";
-import { expect, Page } from "@playwright/test";
+import { url, CREDENTIALS_MAP, UserRoleType } from 'sdk_automation';
+import { BasePage, InventoryPage } from '../pages';
+import { expect, Page } from '@playwright/test';
 
 export class LoginPage extends BasePage {
   readonly usernameInput;
@@ -28,24 +28,24 @@ export class LoginPage extends BasePage {
     this.errorButton = page.locator(LoginPage.selectors.errorButton);
   }
 
-  async login(username: string, password: string) {
+  async login(username: string, password: string): Promise<void> {
     try {
       await this.navigateTo(this.pageUrl);
 
-      await this.usernameInput.waitFor({ state: "visible" });
+      await this.usernameInput.waitFor({ state: 'visible' });
       await this.usernameInput.fill(username);
 
-      await this.passwordInput.waitFor({ state: "visible" });
+      await this.passwordInput.waitFor({ state: 'visible' });
       await this.passwordInput.fill(password);
 
-      await this.loginButton.waitFor({ state: "visible" });
+      await this.loginButton.waitFor({ state: 'visible' });
       await this.loginButton.click();
     } catch (error) {
       throw new Error(`[login]: ${error}`);
     }
   }
 
-  async loginAs(userRole: UserRoleType) {
+  async loginAs(userRole: UserRoleType): Promise<void> {
     const creds = CREDENTIALS_MAP[userRole];
     if (!creds) {
       throw new Error(`Unknown user role: ${userRole}`);
@@ -54,18 +54,19 @@ export class LoginPage extends BasePage {
   }
 
   async getErrorMessage(): Promise<string | null> {
-    await this.errorMessageContainer.waitFor({ state: "visible" });
+    await this.errorMessageContainer.waitFor({ state: 'visible' });
+
     return this.errorMessageContainer.textContent();
   }
 
-  async logout() {
+  async logout(): Promise<void> {
     try {
       const burgerMenu = this.page.locator(InventoryPage.selectors.burgerMenu);
-      await burgerMenu.waitFor({ state: "visible" });
+      await burgerMenu.waitFor({ state: 'visible' });
       await burgerMenu.click();
 
       const logoutLink = this.page.locator(InventoryPage.selectors.logoutLink);
-      await logoutLink.waitFor({ state: "visible" });
+      await logoutLink.waitFor({ state: 'visible' });
       await logoutLink.click();
 
       await expect(this.page).toHaveURL(url.baseUrl);

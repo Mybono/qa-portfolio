@@ -1,8 +1,8 @@
-import { defineConfig, devices } from "@playwright/test";
-import { url } from "sdk_automation";
+import { defineConfig, devices } from '@playwright/test';
+import { url } from 'sdk_automation';
 
 export default defineConfig({
-  testDir: "./tests",
+  testDir: './tests',
 
   fullyParallel: true,
   workers: process.env.CI ? 2 : 8,
@@ -14,42 +14,42 @@ export default defineConfig({
   },
 
   reporter: [
-    ["html", { open: "always" }],
-    ["allure-playwright"],
-    ["list"],
-    ["junit", { outputFile: "test-results/junit.xml" }],
+    ['html', { open: 'always' }],
+    ['allure-playwright'],
+    ['list'],
+    ['junit', { outputFile: 'test-results/junit.xml' }],
   ],
 
   use: {
     baseURL: url.baseUrl,
 
-    trace: "retain-on-failure",
-    screenshot: "only-on-failure",
-    video: "retain-on-failure",
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
 
     actionTimeout: 10000,
   },
 
   projects: [
     {
-      name: "setup",
+      name: 'setup',
       testMatch: /.*\.setup\.ts/,
     },
     {
-      name: "login-tests",
+      name: 'login-tests',
       testMatch: /tests\/login\.test\.ts/,
       use: {
-        ...devices["Desktop Chrome"],
+        ...devices['Desktop Chrome'],
       },
     },
     {
-      name: "tests",
+      name: 'tests',
       testMatch: /tests\/(?!login).*\.test\.ts/,
       use: {
-        ...devices["Desktop Chrome"],
-        storageState: "./auth/user.json",
+        ...devices['Desktop Chrome'],
+        storageState: './auth/user.json',
       },
-      dependencies: ["setup"],
+      dependencies: ['setup'],
     },
   ],
 });
