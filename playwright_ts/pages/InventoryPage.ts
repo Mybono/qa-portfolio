@@ -1,6 +1,6 @@
-import { env, url } from "sdk_automation";
-import { expect, Page } from "@playwright/test";
-import { BasePage } from "../pages";
+import { env, url } from 'sdk_automation';
+import { expect, Page } from '@playwright/test';
+import { BasePage } from '../pages';
 
 export class InventoryPage extends BasePage {
   static readonly selectors = {
@@ -9,8 +9,7 @@ export class InventoryPage extends BasePage {
     addToCartBoltTShirt: '[data-test="add-to-cart-sauce-labs-bolt-t-shirt"]',
     addToCartFleeceJacket: '[data-test="add-to-cart-sauce-labs-fleece-jacket"]',
     addToCartOnesie: '[data-test="add-to-cart-sauce-labs-onesie"]',
-    addToCartRedShirt:
-      '[data-test="add-to-cart-test.allthethings()-t-shirt-(red)"]',
+    addToCartRedShirt: '[data-test="add-to-cart-test.allthethings()-t-shirt-(red)"]',
 
     removeBackpack: '[data-test="remove-sauce-labs-backpack"]',
     removeBikeLight: '[data-test="remove-sauce-labs-bike-light"]',
@@ -47,19 +46,12 @@ export class InventoryPage extends BasePage {
     this.pageUrl = url.inventory;
     this.pageTitle = page.locator(InventoryPage.selectors.pageTitle);
     this.inventoryList = page.locator(InventoryPage.selectors.inventoryList);
-    this.shoppingCartLink = page.locator(
-      InventoryPage.selectors.shoppingCartLink,
-    );
+    this.shoppingCartLink = page.locator(InventoryPage.selectors.shoppingCartLink);
     this.cartBadge = page.locator(InventoryPage.selectors.cartBadge);
-    this.inventoryItemName = page.locator(
-      InventoryPage.selectors.inventoryItemName,
-    );
-    this.inventoryItemPrice = page.locator(
-      InventoryPage.selectors.inventoryItemPrice,
-    );
+    this.inventoryItemName = page.locator(InventoryPage.selectors.inventoryItemName);
+    this.inventoryItemPrice = page.locator(InventoryPage.selectors.inventoryItemPrice);
     this.sortDropdown = page.locator(InventoryPage.selectors.sortDropdown);
 
-    // ✅ Исправлено: используем селекторы напрямую
     this.inventoryItems = [
       InventoryPage.selectors.addToCartBackpack,
       InventoryPage.selectors.addToCartBikeLight,
@@ -73,9 +65,9 @@ export class InventoryPage extends BasePage {
   // ==========================
   // Page Assertions / Checks
   // ==========================
-  async checkIsOnInventoryPage() {
+  async checkIsOnInventoryPage(): Promise<void> {
     await expect.soft(this.page).toHaveURL(new RegExp(url.inventory));
-    await expect.soft(this.pageTitle).toHaveText("Products");
+    await expect.soft(this.pageTitle).toHaveText('Products');
     await expect.soft(this.sortDropdown).toBeVisible();
     await expect.soft(this.shoppingCartLink).toBeVisible();
     await expect.soft(this.inventoryList).toBeVisible();
@@ -84,7 +76,7 @@ export class InventoryPage extends BasePage {
   // ==========================
   // Actions
   // ==========================
-  async addAllVisibleInventoryItems() {
+  async addAllVisibleInventoryItems(): Promise<void> {
     try {
       await this.checkIsOnInventoryPage();
       for (const selector of this.inventoryItems) {
@@ -98,26 +90,20 @@ export class InventoryPage extends BasePage {
     }
   }
 
-  async addProductToCart(productLocator: keyof typeof InventoryPage.selectors) {
+  async addProductToCart(productLocator: keyof typeof InventoryPage.selectors): Promise<void> {
     try {
-      const locator = this.page.locator(
-        InventoryPage.selectors[productLocator],
-      );
-      await locator.waitFor({ state: "visible", timeout: env.TIMEOUT });
+      const locator = this.page.locator(InventoryPage.selectors[productLocator]);
+      await locator.waitFor({ state: 'visible', timeout: env.TIMEOUT });
       await locator.click();
     } catch (error) {
       throw new Error(`[addProductToCart]: ${error}`);
     }
   }
 
-  async removeProductFromCart(
-    productLocator: keyof typeof InventoryPage.selectors,
-  ) {
+  async removeProductFromCart(productLocator: keyof typeof InventoryPage.selectors) {
     try {
-      const locator = this.page.locator(
-        InventoryPage.selectors[productLocator],
-      );
-      await locator.waitFor({ state: "visible", timeout: env.TIMEOUT });
+      const locator = this.page.locator(InventoryPage.selectors[productLocator]);
+      await locator.waitFor({ state: 'visible', timeout: env.TIMEOUT });
       await locator.click();
     } catch (error) {
       throw new Error(`[removeProductFromCart]: ${error}`);
@@ -125,18 +111,18 @@ export class InventoryPage extends BasePage {
   }
 
   async sortItems(
-    option: "priceLowToHigh" | "priceHighToLow" | "nameAZ" | "nameZA",
-  ) {
+    option: 'priceLowToHigh' | 'priceHighToLow' | 'nameAZ' | 'nameZA',
+  ): Promise<void> {
     try {
       const mapping = {
-        priceLowToHigh: "lohi",
-        priceHighToLow: "hilo",
-        nameAZ: "az",
-        nameZA: "za",
+        priceLowToHigh: 'lohi',
+        priceHighToLow: 'hilo',
+        nameAZ: 'az',
+        nameZA: 'za',
       };
       await this.page.waitForURL(url.inventory);
       await this.sortDropdown.waitFor({
-        state: "visible",
+        state: 'visible',
         timeout: env.TIMEOUT,
       });
       await this.sortDropdown.selectOption(mapping[option]);
@@ -146,18 +132,18 @@ export class InventoryPage extends BasePage {
   }
 
   async getAllPrices(): Promise<number[]> {
-    return await this.inventoryItemPrice.evaluateAll((els) =>
-      els.map((el) => parseFloat(el.textContent.replace("$", "").trim())),
+    return await this.inventoryItemPrice.evaluateAll(els =>
+      els.map(el => parseFloat(el.textContent.replace('$', '').trim())),
     );
   }
 
   async getAllNames(): Promise<string[]> {
-    return await this.inventoryItemName.evaluateAll((els) =>
-      els.map((el) => el.textContent.trim().toLowerCase()),
+    return await this.inventoryItemName.evaluateAll(els =>
+      els.map(el => el.textContent.trim().toLowerCase()),
     );
   }
 
-  async goToCart() {
+  async goToCart(): Promise<void> {
     await this.shoppingCartLink.click();
     await this.page.waitForURL(/cart/);
   }

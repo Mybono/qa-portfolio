@@ -1,13 +1,8 @@
-import { url, inventorySelectors } from "sdk_automation";
-import { test, expect } from "../fixtures";
+import { url, inventorySelectors } from 'sdk_automation';
+import { test, expect } from '../fixtures';
 
-test.describe("Inventory Page Tests @regression", () => {
-  test("E2E: Add all & Checkout", async ({
-    inventoryPage,
-    cartPage,
-    checkOutPage,
-    testUser,
-  }) => {
+test.describe('Inventory Page Tests @regression', () => {
+  test('E2E: Add all & Checkout', async ({ inventoryPage, cartPage, checkOutPage, testUser }) => {
     await inventoryPage.addAllVisibleInventoryItems();
     await inventoryPage.goToCart();
 
@@ -21,53 +16,47 @@ test.describe("Inventory Page Tests @regression", () => {
     await checkOutPage.finishCheckout();
   });
 
-  test("should display all main UI elements", async ({ inventoryPage }) => {
+  test('should display all main UI elements', async ({ inventoryPage }) => {
     await inventoryPage.checkIsOnInventoryPage();
     await expect.soft(inventoryPage.inventoryList).toBeVisible();
   });
 
-  test("should add one product to cart", async ({
-    inventoryPage,
-    cartPage,
-  }) => {
-    await inventoryPage.addProductToCart("addToCartBackpack");
-    await expect(cartPage.cartBadge).toHaveText("1");
+  test('should add one product to cart', async ({ inventoryPage, cartPage }) => {
+    await inventoryPage.addProductToCart('addToCartBackpack');
+    await expect(cartPage.cartBadge).toHaveText('1');
   });
 
-  test("should remove product from cart", async ({
-    inventoryPage,
-    cartPage,
-  }) => {
-    await inventoryPage.addProductToCart("addToCartBackpack");
-    await inventoryPage.removeProductFromCart("removeBackpack");
+  test('should remove product from cart', async ({ inventoryPage, cartPage }) => {
+    await inventoryPage.addProductToCart('addToCartBackpack');
+    await inventoryPage.removeProductFromCart('removeBackpack');
     await expect(cartPage.cartBadge).toBeHidden();
   });
 
-  test("should sort items by price low→high", async ({ inventoryPage }) => {
-    await inventoryPage.sortItems("priceLowToHigh");
+  test('should sort items by price low→high', async ({ inventoryPage }) => {
+    await inventoryPage.sortItems('priceLowToHigh');
     const prices = await inventoryPage.getAllPrices();
     expect([...prices].sort((a, b) => a - b)).toEqual(prices);
   });
 
-  test("should sort items by price high→low", async ({ inventoryPage }) => {
-    await inventoryPage.sortItems("priceHighToLow");
+  test('should sort items by price high→low', async ({ inventoryPage }) => {
+    await inventoryPage.sortItems('priceHighToLow');
     const prices = await inventoryPage.getAllPrices();
     expect([...prices].sort((a, b) => b - a)).toEqual(prices);
   });
 
-  test("should sort items by name A→Z", async ({ inventoryPage }) => {
-    await inventoryPage.sortItems("nameAZ");
+  test('should sort items by name A→Z', async ({ inventoryPage }) => {
+    await inventoryPage.sortItems('nameAZ');
     const names = await inventoryPage.getAllNames();
     expect([...names].sort((a, b) => a.localeCompare(b))).toEqual(names);
   });
 
-  test("should sort items by name Z→A", async ({ inventoryPage }) => {
-    await inventoryPage.sortItems("nameZA");
+  test('should sort items by name Z→A', async ({ inventoryPage }) => {
+    await inventoryPage.sortItems('nameZA');
     const names = await inventoryPage.getAllNames();
     expect([...names].sort((a, b) => b.localeCompare(a))).toEqual(names);
   });
 
-  test("should navigate to cart", async ({ inventoryPage, page }) => {
+  test('should navigate to cart', async ({ inventoryPage, page }) => {
     await inventoryPage.goToCart();
     await expect(page).toHaveURL(url.cart);
   });
