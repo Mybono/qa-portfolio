@@ -75,7 +75,7 @@ jobs:
   # PR CheckMate Quality Checks
   # ============================================
   pr-checkmate:
-    name: 🚀 PR CheckMate Checks
+    name: ✅ PR CheckMate
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout code
@@ -97,20 +97,65 @@ jobs:
       - name: 🔍 Run PR CheckMate
         run: pr-checkmate all
 
-  # ============================================
-  # Auto Merge if author is Mybono
-  # ============================================
-  auto-merge:
-    name: 🚀 Auto Merge PR
+  # =======================================================
+  # Update Changelog
+  # =======================================================
+  update-changelog:
+    name: 📝 Update Changelog
     runs-on: ubuntu-latest
-    needs: [pr-validation, pr-checkmate]
-    if: github.actor == 'Mybono'
-    
+    needs: [pr-checkmate, pr-validation]
     steps:
       - name: 📥 Checkout PR
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: 🤖 Auto-merge PR
-        uses: pascalgn/automerge-action@v0.14.3
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 📝 Determine bump type
+        id: bump
+        run: |
+          if git log origin/${{ github.base_ref }}..HEAD --pretty=format:"%s" | grep -q "^feat:"; then
+            echo "bump_type=minor" >> $GITHUB_OUTPUT
+          else
+            echo "bump_type=patch" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 📝 Generate/Update CHANGELOG.md
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          npx standard-version --skip.tag --skip.commit --release-as ${{ steps.bump.outputs.bump_type }}
+
+          git add CHANGELOG.md package.json package-lock.json
+
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: update CHANGELOG.md"
+            git push origin HEAD:${{ github.head_ref }}
+          else
+            echo "No changes to CHANGELOG.md"
+          fi
+
+  # =======================================================
+  # Auto-merge PR 
+  # =======================================================
+  auto-merge:
+    name: 🤖 Auto-merge PR
+    runs-on: ubuntu-latest
+    needs: [update-changelog]
+    if: github.repository == github.event.repository.full_name
+    steps:
+      - name: 🔀 Enable auto-merge
+        run: |
+          gh pr merge ${{ github.event.pull_request.number }} \
+            --merge \
+            --repo ${{ github.repository }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
