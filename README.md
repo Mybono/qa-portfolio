@@ -75,29 +75,34 @@ The project uses `docker compose` to orchestrate several key services:
 
 Our repository uses **GitHub Actions** to enforce quality and safety checks on all pull requests.
 
-### 🔍 PR Quality Checks
 
-For every PR (`opened`, `synchronize`, `reopened`):
+### 🔍 Pull Request Workflow
+- **Trigger:** Runs on `pull_request` events targeting the `main` branch (`opened`, `synchronize`, `reopened`).  
+- **Purpose:** Executes a full CI workflow for every PR before merge.  
 
-#### 1. PR Validation
+#### Jobs:
 
-- Checks PR size (files/lines changed)
-- Validates PR title against **conventional commits**
-- Ensures PR description is adequate
+- 🚀 [pr-checkmate](https://dev.to/deftoexplore/pr-checkmate-stop-debating-style-and-start-coding-ij) 
+**A set of automated checks for Pull Requests**
+  - ESLint checks  
+  - Dependency change detection  
+  - Prettier auto-formatting  
+  - Spellcheck (`cspell`)  
 
-#### 2. Automated Code Review
+- ✅ pr-validation
+  - Checks PR size (number of files and lines changed)  
+  - Generates PR metrics summary for quick review  
 
-- Runs code quality checks: **linting (ESLint, Prettier)**
+- 📝 update-changelog
+  - Automatically updates `CHANGELOG.md` based on conventional commits  
+  - Determines semantic version bump (patch/minor/major) according to commit types  
 
-#### 3. Dependency Check
+- 🤖 auto-merge
+  - Automatically merges the PR once all checks pass and changelog is updated
 
-- Detects changes to `package.json`
-- Ensures:
-  - Security audit has been run
-  - License compatibility is verified
-  - Bundle size impact is acceptable
+---
 
-[Workflow Example](https://github.com/Mybono/qa-portfolio/actions/runs/19306260482)
+[Workflow Example](https://github.com/Mybono/qa-portfolio/actions/runs/19546669700)
 
 <p align="center">
   <img src="./assets/pr_ci_cd.png" alt="CI/CD Workflow Example" style="display: block; margin: 0 auto; max-width: 100%;">
