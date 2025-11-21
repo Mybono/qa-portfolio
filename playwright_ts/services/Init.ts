@@ -3,11 +3,14 @@ import { Db } from 'mongodb';
 
 type ServiceConstructor<T> = new (db: Db) => T;
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 declare global {
   var _db: Db | undefined;
-  var _services: {
-    [key: string]: any;
-  } | undefined;
+  var _services:
+    | {
+        [key: string]: any;
+      }
+    | undefined;
 }
 
 const dbInit = async (): Promise<Db> => {
@@ -15,6 +18,7 @@ const dbInit = async (): Promise<Db> => {
     globalThis._db = await DbConnection.getInstance().openConnection(env.MONGO_CONNECTION_STRING);
     logger.info('[ServicesInit] DB connection established');
   }
+
   return globalThis._db;
 };
 
