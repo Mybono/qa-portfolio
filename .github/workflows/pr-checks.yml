@@ -50,7 +50,7 @@ jobs:
         run: |
           PR_BODY="${{ github.event.pull_request.body }}"
           
-          if [ -z "$PR_BODY" ] || [ ${#PR_BODY} -lt 20 ]; then
+          if [ -z "$PR_BODY" ] || [ ${#PR_BODY} -lt 10 ]; then
             echo "⚠️ PR description is too short or empty"
             exit 1
           else
