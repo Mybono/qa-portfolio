@@ -100,7 +100,7 @@ export class InventoryPage extends BasePage {
     }
   }
 
-  async removeProductFromCart(productLocator: keyof typeof InventoryPage.selectors) {
+  async removeProductFromCart(productLocator: keyof typeof InventoryPage.selectors): Promise<void> {
     try {
       const locator = this.page.locator(InventoryPage.selectors[productLocator]);
       await locator.waitFor({ state: 'visible', timeout: env.TIMEOUT });
