@@ -1,3 +1,13 @@
 {
-  "sourcePath": "playwright_ts"
+  "sourcePath": "playwright_ts",
+  "commands": {
+    "npx pr-checkmate init": "Update pr-checkmate.json",
+    "npx pr-checkmate all": "Run all checks",
+    "npx pr-checkmate lint": "Lint code using ESLint",
+    "npx pr-checkmate prettier": "Format code using Prettier",
+    "npx pr-checkmate deps": "Check project dependencies",
+    "npx pr-checkmate npm-audit": "Run package vulnerabilities check",
+    "npx pr-checkmate security": "Security scan",
+    "npx pr-checkmate spellcheck": "Run spellcheck via cspell"
+  }
 }
