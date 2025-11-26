@@ -14,7 +14,7 @@
     "release": "standard-version"
   },
   "devDependencies": {
-    "pr-checkmate": "^1.9.8",
+    "pr-checkmate": "^1.19.7",
     "standard-version": "^9.5.0",
     "typescript": "^5.6.3"
   },
