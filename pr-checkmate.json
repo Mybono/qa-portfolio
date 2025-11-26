@@ -9,5 +9,29 @@
     "npx pr-checkmate npm-audit": "Run package vulnerabilities check",
     "npx pr-checkmate security": "Security scan",
     "npx pr-checkmate spellcheck": "Run spellcheck via cspell"
+  },
+  "eslint": {
+    "rules": {},
+    "ignorePatterns": []
+  },
+  "prettier": {
+    "rules": {}
+  },
+  "cspell": {
+    "words": [
+      "Onesie",
+      "allthethings",
+      "lohi",
+      "hilo",
+      "domcontentloaded"
+    ],
+    "ignorePaths": [],
+    "ignoreRegExpList": []
+  },
+  "documentation": {
+    "eslint": "https://eslint.org/docs/latest/rules/",
+    "typescriptEslint": "https://typescript-eslint.io/rules/",
+    "prettier": "https://prettier.io/docs/en/options.html",
+    "cspell": "https://cspell.org/configuration/"
   }
 }

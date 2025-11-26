@@ -87,7 +87,9 @@ Our repository uses **GitHub Actions** to enforce quality and safety checks on a
   - ESLint checks  
   - Dependency change detection  
   - Prettier auto-formatting  
-  - Spellcheck (`cspell`)  
+  - Spellcheck (`cspell`)
+  - NPM audit
+  - Scans for secrets using
 
 - ✅ pr-validation
   - Checks PR size (number of files and lines changed)  
